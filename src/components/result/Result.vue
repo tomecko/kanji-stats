@@ -96,11 +96,10 @@ ${info.found ? '' : 'not'} found in the text`;
 
 <style scoped lang="scss">
 .result-contents {
-  $horizontalPadding: 20px;
   background: #f5f5f5;
-  height: calc(100% - 2 * $horizontalPadding);
+  box-sizing: border-box;
   overflow-y: auto;
-  padding: $horizontalPadding 30px;
+  padding: 20px 30px;
 }
 
 .kanjis {
