@@ -1,11 +1,5 @@
 <template>
   <section class="result-contents">
-    <!-- <ul>
-      <li>deploy</li>
-      <li>readme</li>
-      <li>github</li>
-      <li>licencja</li>
-    </ul> -->
     <template v-if="inputText.length === 0">
       <p>No kanji. No stats.</p>
     </template>
