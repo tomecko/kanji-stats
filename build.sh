@@ -1,1 +1,1 @@
-yarn && yarn build
+# built manually :(
