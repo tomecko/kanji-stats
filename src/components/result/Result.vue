@@ -1,7 +1,6 @@
 <template>
   <section class="result-contents">
     <!-- <ul>
-      <li>GA</li>
       <li>deploy</li>
       <li>readme</li>
       <li>github</li>
