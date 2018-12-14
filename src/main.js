@@ -3,12 +3,11 @@ import VueAnalytics from 'vue-analytics';
 
 import App from './App.vue';
 import './registerServiceWorker';
-import { gaId } from './config.json';
 
 Vue.config.productionTip = false;
 
 Vue.use(VueAnalytics, {
-  id: gaId,
+  id: 'UA-131056476-1',
 });
 
 new Vue({

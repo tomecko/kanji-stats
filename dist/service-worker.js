@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.f0d63066d578ce1afc5aa59a3a1d13ea.js"
+  "/precache-manifest.165ab0722b8b722b268475b7772440a4.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "kanji-analyzer"});
