@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import Header from './components/Header.vue';
-import Input from './components/Input.vue';
-import Result from './components/Result.vue';
+import Header from './components/header/Header.vue';
+import Input from './components/input/Input.vue';
+import Result from './components/result/Result.vue';
 import sampleText from './data/sample-text';
 
 export default {
@@ -43,16 +43,20 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('../node_modules/normalize.css');
 body {
   color: #222;
   font-family: sans-serif;
-  margin: 0;
   padding: 0;
   overflow: hidden;
 }
 
 h1, h2, p {
-  margin: 0;
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.45;
 }
 
 #app {
@@ -75,7 +79,6 @@ h1, h2, p {
 }
 
 .input {
-  background: green;
   flex: 1;
 }
 
@@ -83,4 +86,13 @@ h1, h2, p {
   flex: 2;
 }
 
+@media (max-width: 960px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .result {
+    border-top: 1px solid #999;
+  }
+}
 </style>

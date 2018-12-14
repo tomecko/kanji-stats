@@ -12,12 +12,12 @@
       @click="$emit('clearText')"
       class="clear-text"
     >
-      clear text
+      clear
     </button>
     <textarea
       v-on:input="$emit('input', $event.target.value)"
       v-bind:value="value"
-      placeholder="or paste text here"
+      placeholder="or paste a text here"
     />
   </section>
 </template>
