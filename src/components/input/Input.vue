@@ -1,5 +1,5 @@
 <template>
-  <section class="input-contents">
+  <section :class="{ focused: focused }">
     <button
       v-if="value.length === 0"
       @click="$emit('loadSampleText')"
@@ -15,8 +15,10 @@
       clear
     </button>
     <textarea
-      v-on:input="$emit('input', $event.target.value)"
-      v-bind:value="value"
+      @blur="focused = false"
+      @focus="focused = true"
+      @input="$emit('input', $event.target.value)"
+      :value="value"
       placeholder="or paste a text here"
     />
   </section>
@@ -25,6 +27,11 @@
 <script>
 export default {
   name: 'Input',
+  data() {
+    return {
+      focused: false,
+    };
+  },
   props: {
     value: String,
   },
@@ -32,7 +39,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.input-contents {
+.input {
+  overflow: hidden;
   position: relative;
 }
 

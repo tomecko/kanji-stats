@@ -1,5 +1,7 @@
 <template>
-  <section class="result-contents">
+  <section
+    @scroll="onContentsScroll"
+  >
     <template v-if="inputText.length === 0">
       <p>No kanji. No stats.</p>
     </template>
@@ -51,6 +53,8 @@
 </template>
 
 <script>
+import { debounce } from 'lodash';
+
 import kanjiDatasets from '../../data/kanji-datasets';
 import getResult from '../../service/get-result';
 import Chart from './Chart.vue';
@@ -81,6 +85,10 @@ export default {
 #${i + 1} by frequency
 ${info.found ? '' : 'not'} found in the text`;
     },
+    // eslint-disable-next-line func-names
+    onContentsScroll: debounce(function (event) {
+      this.$emit('scroll', event.target.scrollTop);
+    }, 10),
   },
   props: {
     inputText: String,
@@ -89,11 +97,11 @@ ${info.found ? '' : 'not'} found in the text`;
 </script>
 
 <style scoped lang="scss">
-.result-contents {
+.result {
   background: #f5f5f5;
   box-sizing: border-box;
   overflow-y: auto;
-  padding: 20px 30px;
+  padding: 20px;
 }
 
 .kanjis {

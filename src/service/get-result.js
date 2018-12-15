@@ -26,7 +26,7 @@ export default function (inputText, kanjiLimit, selectedKanjiDataset) {
   const data = kanjiDatasets[selectedKanjiDataset];
   const allKanjis = data
     .map(([kanji]) => kanji)
-    .filter(value => value !== 'all');
+    .slice(1, -1);
   const inputChars = uniq(inputText.split(''));
 
   const foundKanjis = intersection(inputChars, allKanjis);
