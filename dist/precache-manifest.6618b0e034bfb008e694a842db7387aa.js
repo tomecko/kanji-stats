@@ -22,5 +22,9 @@ self.__precacheManifest = [
   {
     "revision": "099ceb8d71871d47c8f5",
     "url": "/css/app.5bc50058.css"
+  },
+  {
+    "revision": "c5b92d2fac446fbb114233e1b33de81a",
+    "url": "/.htaccess"
   }
 ];
