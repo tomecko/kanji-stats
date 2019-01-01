@@ -14,6 +14,7 @@
       <Result
         @scroll="onResultScroll"
         :inputText="inputText"
+        v-if="Boolean(inputText)"
         class="result"
       />
     </main>
