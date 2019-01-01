@@ -1,0 +1,18 @@
+@import url('../node_modules/normalize.css');
+
+$transitionDuration: .3s;
+
+body {
+  color: #222;
+  font-family: sans-serif;
+  padding: 0;
+  overflow: hidden;
+}
+
+h1, h2, p {
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.45;
+}
