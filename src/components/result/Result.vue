@@ -22,8 +22,8 @@
     </p>
     <p>
       Found <strong>{{ result.foundKanjis.length }}</strong> distinct kanji.<br/>
-      To know <strong>80%</strong> of kanji in the provided text
-      you need to be familiar with <strong>{{ kanji80Percent }}</strong>
+      To know <strong>{{ kanjiPercentage * 100 }}%</strong> of kanji in the provided text
+      you need to be familiar with <strong>{{ kanjiPercentageInfo }}</strong>
       the most frequent kanji.<br/>
       See the chart below for details.
     </p>
@@ -60,8 +60,8 @@ export default {
     Chart,
   },
   computed: {
-    kanji80Percent() {
-      return this.result.kanjiInfos.findIndex(info => info.foundAccPercentage > 0.8) + 1;
+    kanjiPercentageInfo() {
+      return this.result.kanjiInfos.findIndex(info => info.foundAccPercentage > this.kanjiPercentage) + 1;
     },
     result() {
       return getResult(this.inputText, this.showCount, this.selectedKanjiDataset);
@@ -70,6 +70,7 @@ export default {
   data() {
     return {
       kanjiDatasets,
+      kanjiPercentage: 0.8,
       showCount: 2000,
       selectedKanjiDataset: 'wikipedia',
     };
