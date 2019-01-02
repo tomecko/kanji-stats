@@ -3,8 +3,8 @@
     @scroll="onContentsScroll"
   >
     <h2>Results</h2>
-    <p>
-      Following stats are based on
+    <p class="dataset-select">
+      kanji frequency data:
       <select v-model="selectedKanjiDataset">
         <option
           v-for="(dataset, name, i) in kanjiDatasets"
@@ -13,12 +13,6 @@
           {{ name }}
         </option>
       </select>
-      kanji frequency data<br/>
-      crafted by
-      <a href="https://github.com/scriptin">scriptin</a>
-      and gratefully grabbed from
-      <a href="https://github.com/scriptin/kanji-frequency">kanji-frequency</a>
-      (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)
     </p>
     <p>
       Found <strong>{{ result.foundKanjis.length }}</strong> distinct kanji.<br/>
@@ -27,16 +21,20 @@
       the most frequent kanji.<br/>
       See the chart below for details.
     </p>
-    <Chart
-      :kanjiInfos="result.kanjiInfos"
-    />
+    <div class="chart">
+      <Chart
+        :height=500
+        :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+        :showCount="showCount"
+      />
+    </div>
     <p>
       And here comes the list of {{ showCount }} kanji sorted by frequency.<br/>
       Kanji found in the text are <strong>bolded</strong>.
     </p>
     <ul class="kanjis">
       <li
-        v-for="(info, i) in result.kanjiInfos"
+        v-for="(info, i) in result.kanjiInfos[selectedKanjiDataset]"
         :class="['kanji', { found: info.found }]"
         :key="info.kanji"
         :title="getKanjiTitle(info, i)"
@@ -44,6 +42,13 @@
         {{ info.kanji }}
       </li>
     </ul>
+    <p>
+      Kanji frequency data crafted by
+      <a href="https://github.com/scriptin">scriptin</a>
+      and gratefully grabbed from
+      <a href="https://github.com/scriptin/kanji-frequency">kanji-frequency</a>
+      (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)
+    </p>
   </section>
 </template>
 
@@ -61,10 +66,11 @@ export default {
   },
   computed: {
     kanjiPercentageInfo() {
-      return this.result.kanjiInfos.findIndex(info => info.foundAccPercentage > this.kanjiPercentage) + 1;
+      return this.result.kanjiInfos[this.selectedKanjiDataset]
+        .findIndex(info => info.foundAccPercentage > this.kanjiPercentage) + 1;
     },
     result() {
-      return getResult(this.inputText, this.showCount, this.selectedKanjiDataset);
+      return getResult(this.inputText, this.showCount);
     },
   },
   data() {
@@ -79,7 +85,7 @@ export default {
     getKanjiTitle(info, i) {
       return `${info.kanji}
 #${i + 1} by frequency
-${info.found ? '' : 'not'} found in the text`;
+${info.found ? '' : 'not '}found in the text`;
     },
     // eslint-disable-next-line func-names
     onContentsScroll: debounce(function (event) {
@@ -98,6 +104,13 @@ ${info.found ? '' : 'not'} found in the text`;
   box-sizing: border-box;
   overflow-y: auto;
   padding: 20px;
+  position: relative;
+}
+
+.dataset-select {
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }
 
 .kanjis {

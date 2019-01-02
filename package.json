@@ -10,12 +10,13 @@
     "test": "yarn check --integrity && yarn lint && yarn test:unit && yarn build"
   },
   "dependencies": {
+    "chart.js": "2.7.3",
     "lodash": "4.17.11",
     "normalize.css": "8.0.1",
     "register-service-worker": "1.5.2",
     "vue": "2.5.17",
     "vue-analytics": "5.16.1",
-    "vue-google-charts": "0.3.2"
+    "vue-chartjs": "3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "3.2.0",

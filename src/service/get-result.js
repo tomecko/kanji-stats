@@ -1,15 +1,17 @@
-import { intersection, mapValues, uniq } from 'lodash';
+import {
+  intersection,
+  mapValues,
+  uniq,
+  values,
+} from 'lodash';
 
 import kanjiDatasets from '../data/kanji-datasets';
 
-const allKanjis = mapValues(
-  kanjiDatasets,
-  dataset => dataset
-    .map(([kanji]) => kanji)
-    .slice(1, -1),
-);
+const allKanjis = uniq(values(kanjiDatasets)
+  .map(dataset => dataset.map(([kanji]) => kanji).slice(1, -1))
+  .reduce((acc, kanjis) => acc.concat(kanjis)));
 
-const getKanjiInfos = (data, inputChars, kanjiLimit, foundKanjisCount) => data
+const getKanjiInfos = (inputChars, kanjiLimit, foundKanjisCount) => data => data
   .filter((_, i) => i > 0)
   .filter((_, i) => i < kanjiLimit)
   .map(info => ({
@@ -29,12 +31,14 @@ const getKanjiInfos = (data, inputChars, kanjiLimit, foundKanjisCount) => data
     });
   }, []);
 
-export default function (inputText, kanjiLimit, selectedKanjiDataset) {
-  const data = kanjiDatasets[selectedKanjiDataset];
+export default function (inputText, kanjiLimit) {
   const inputChars = uniq(inputText.split(''));
 
-  const foundKanjis = intersection(inputChars, allKanjis[selectedKanjiDataset]);
-  const kanjiInfos = getKanjiInfos(data, inputChars, kanjiLimit, foundKanjis.length);
+  const foundKanjis = intersection(inputChars, allKanjis);
+  const kanjiInfos = mapValues(
+    kanjiDatasets,
+    getKanjiInfos(inputChars, kanjiLimit, foundKanjis.length),
+  );
 
   return { foundKanjis, kanjiInfos };
 }
