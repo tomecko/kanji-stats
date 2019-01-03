@@ -18,7 +18,7 @@
         @click="$emit('goToResults', inputText)"
         class="get-results primary-cta"
       >
-        get results
+        show results
       </button>
     </template>
     <textarea
