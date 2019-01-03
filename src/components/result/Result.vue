@@ -17,17 +17,29 @@
         </option>
       </select>
     </p>
-    <p>
-      Found <strong>{{ result.foundKanjis.length }}</strong> distinct kanji.<br/>
-      To know <strong>{{ kanjiPercentage * 100 }}%</strong> of kanji in the provided text
-      you need to be familiar with <strong>{{ kanjiPercentageInfo }}</strong>
-      the most frequent kanji.
-    </p>
+    <div class="counts">
+      <Count
+        :count="result.foundKanjis.length"
+      >
+        distinct kanji found
+      </Count>
+      <Count
+        :count="kanjiPercentageInfo"
+      >
+        the most frequently used kanji needed<br/>
+        to know {{ kanjiPercentage * 100 }}% kanji found in the text
+      </Count>
+    </div>
+    <h2>
+      How many the&nbsp;most&nbsp;frequently used&nbsp;kanji
+      do&nbsp;I&nbsp;need to&nbsp;know&nbsp;X% of&nbsp;kanji&nbsp;in&nbsp;the&nbsp;text?
+    </h2>
     <FrequencyChart
-      :height="500"
+      :height="400"
       :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
       :showCount="showCount"
     />
+    <h2>All found kanji</h2>
     <p>
       And here comes the list of {{ showCount }} kanji sorted by frequency.<br/>
       Kanji found in the text are <strong>bolded</strong>.
@@ -42,6 +54,7 @@
         {{ info.kanji }}
       </li>
     </ul>
+    <hr />
     <p>
       Kanji frequency data crafted by
       <a href="https://github.com/scriptin">scriptin</a>
@@ -55,11 +68,13 @@
 <script>
 import kanjiDatasets from '../../data/kanji-datasets';
 import getResult from '../../service/get-result';
+import Count from './Count.vue';
 import FrequencyChart from './FrequencyChart.vue';
 
 export default {
   name: 'Result',
   components: {
+    Count,
     FrequencyChart,
   },
   computed: {
@@ -74,7 +89,7 @@ export default {
   data() {
     return {
       kanjiDatasets,
-      kanjiPercentage: 0.8,
+      kanjiPercentage: 0.9,
       showCount: 2000,
       selectedKanjiDataset: 'wikipedia',
     };
@@ -109,6 +124,12 @@ ${info.found ? '' : 'not '}found in the text`;
   position: absolute;
   right: 20px;
   top: 20px;
+}
+
+.counts {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .kanjis {
