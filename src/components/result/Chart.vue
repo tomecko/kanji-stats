@@ -92,10 +92,10 @@ you need to be familiar with ${points[0].xLabel + 1} the most frequent kanji.`
               x: i,
               y: info.foundAccPercentage,
             }))
-            .filter((_, i, all) =>
-              i === 0 || i === all.length - 1 || i % 10 === 9)
-            .filter((point, i, all) =>
-              i === 0 || i === all.length - 1 || point.y !== all[i - 1].y || point.y === 1),
+            .filter((_, i, all) => i === 0 || i === all.length - 1
+              || i % 10 === 9)
+            .filter((point, i, all) => i === 0 || i === all.length - 1
+              || point.y !== all[i - 1].y || point.y === 1),
           steppedLine: true,
         }],
       };
@@ -109,6 +109,6 @@ you need to be familiar with ${points[0].xLabel + 1} the most frequent kanji.`
     kanjiInfos() {
       this.chartData = this.getChartData();
     },
-  }
+  },
 };
 </script>

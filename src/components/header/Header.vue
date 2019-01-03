@@ -12,6 +12,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../../global';
+
+.header {
+  background: $themeColor;
+  border-bottom: 1px solid #999;
+  color: #fff;
+  height: 60px;
+  padding: 1em 20px;
+}
+
 .heading,
 .subheading {
   margin: 0;

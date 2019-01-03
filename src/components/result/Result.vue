@@ -1,10 +1,13 @@
 <template>
-  <section
-    @scroll="onContentsScroll"
-  >
-    <h2>Results</h2>
+  <section>
+    <button
+      @click="$emit('goToInput')"
+      class="back"
+    >
+      back
+    </button>
     <p class="dataset-select">
-      kanji frequency data:
+      kanji frequency data: <br class="only-small" />
       <select v-model="selectedKanjiDataset">
         <option
           v-for="(dataset, name, i) in kanjiDatasets"
@@ -18,16 +21,13 @@
       Found <strong>{{ result.foundKanjis.length }}</strong> distinct kanji.<br/>
       To know <strong>{{ kanjiPercentage * 100 }}%</strong> of kanji in the provided text
       you need to be familiar with <strong>{{ kanjiPercentageInfo }}</strong>
-      the most frequent kanji.<br/>
-      See the chart below for details.
+      the most frequent kanji.
     </p>
-    <div class="chart">
-      <Chart
-        :height=500
-        :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
-        :showCount="showCount"
-      />
-    </div>
+    <Chart
+      :height="500"
+      :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+      :showCount="showCount"
+    />
     <p>
       And here comes the list of {{ showCount }} kanji sorted by frequency.<br/>
       Kanji found in the text are <strong>bolded</strong>.
@@ -53,8 +53,6 @@
 </template>
 
 <script>
-import { debounce } from 'lodash';
-
 import kanjiDatasets from '../../data/kanji-datasets';
 import getResult from '../../service/get-result';
 import Chart from './Chart.vue';
@@ -87,10 +85,6 @@ export default {
 #${i + 1} by frequency
 ${info.found ? '' : 'not '}found in the text`;
     },
-    // eslint-disable-next-line func-names
-    onContentsScroll: debounce(function (event) {
-      this.$emit('scroll', event.target.scrollTop);
-    }, 10),
   },
   props: {
     inputText: String,
@@ -105,6 +99,10 @@ ${info.found ? '' : 'not '}found in the text`;
   overflow-y: auto;
   padding: 20px;
   position: relative;
+}
+
+.back {
+  margin-bottom: 15px;
 }
 
 .dataset-select {

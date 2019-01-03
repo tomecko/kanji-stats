@@ -1,39 +1,46 @@
 <template>
   <section :class="{ focused: focused }">
     <button
-      v-if="value.length === 0"
-      @click="$emit('loadSampleText')"
+      v-if="inputText.length === 0"
+      @click="inputText = sampleText"
       class="load-sample-text"
     >
-      load sample text
+      load demo
     </button>
-    <button
-      v-else
-      @click="$emit('clearText')"
-      class="clear-text"
-    >
-      clear
-    </button>
+    <template v-else>
+      <button
+        @click="inputText = ''"
+        class="clear-text"
+      >
+        clear
+      </button>
+      <button
+        @click="$emit('goToResults', inputText)"
+        class="get-results primary-cta"
+      >
+        get results
+      </button>
+    </template>
     <textarea
       @blur="focused = false"
       @focus="focused = true"
-      @input="$emit('input', $event.target.value)"
-      :value="value"
-      placeholder="or paste a text here"
+      v-model="inputText"
+      placeholder="or paste a Japanese text here…"
     />
   </section>
 </template>
 
 <script>
+import sampleText from '../../data/sample-text';
+
 export default {
   name: 'Input',
   data() {
     return {
       focused: false,
+      inputText: '',
+      sampleText,
     };
-  },
-  props: {
-    value: String,
   },
 };
 </script>
@@ -44,11 +51,16 @@ export default {
   position: relative;
 }
 
+.clear-text,
 .load-sample-text,
-.clear-text {
-  left: 20px;
+.get-results {
   position: absolute;
+  left: 20px;
   top: 20px;
+}
+
+.get-results {
+  left: 100px;
 }
 
 textarea {
@@ -58,7 +70,11 @@ textarea {
   height: 100%;
   margin: 0;
   overflow-y: auto;
-  padding: 60px 20px 20px 20px;
+  padding: 75px 20px 20px 20px;
   width: 100%;
+
+  &::placeholder {
+    font-size: 1.2em;
+  }
 }
 </style>

@@ -1,23 +1,17 @@
 <template>
-  <div
-    :class="{ 'result-investigated': resultScrollTop > 0 }"
-    id="app"
-  >
+  <div id="app">
     <Header class="header" />
-    <main class="main">
-      <Input
-        @clearText="inputText = ''"
-        @loadSampleText="loadSampleText"
-        v-model="inputText"
-        class="input"
-      />
-      <Result
-        @scroll="onResultScroll"
-        :inputText="inputText"
-        v-if="Boolean(inputText)"
-        class="result"
-      />
-    </main>
+    <Input
+      @goToResults="goToResults"
+      v-show="view === 'input'"
+      class="input"
+    />
+    <Result
+      @goToInput="goToInput"
+      :inputText="inputText"
+      v-if="view === 'result'"
+      class="result"
+    />
   </div>
 </template>
 
@@ -27,7 +21,6 @@ import './App.scss';
 import Header from './components/header/Header.vue';
 import Input from './components/input/Input.vue';
 import Result from './components/result/Result.vue';
-import sampleText from './data/sample-text';
 
 export default {
   name: 'app',
@@ -39,15 +32,16 @@ export default {
   data() {
     return {
       inputText: '',
-      resultScrollTop: 0,
+      view: 'input', // TODO: consider adding router
     };
   },
   methods: {
-    loadSampleText() {
-      this.inputText = sampleText;
+    goToInput() {
+      this.view = 'input';
     },
-    onResultScroll(y) {
-      this.resultScrollTop = y;
+    goToResults(inputText) {
+      this.view = 'result';
+      this.inputText = inputText;
     },
   },
 };
