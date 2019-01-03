@@ -4,7 +4,7 @@ import { Line, mixins } from 'vue-chartjs';
 import { THEME_COLOR, THEME_COLOR_LIGHT } from '../../global';
 
 export default {
-  name: 'Chart',
+  name: 'FrequencyChart',
   extends: Line,
   mixins: [mixins.reactiveData],
   mounted() {
@@ -36,7 +36,7 @@ export default {
             scaleLabel: {
               display: true,
               fontSize: 16,
-              labelString: '# of kanji in given source sorted by frequency',
+              labelString: '# of kanji sorted by frequency',
             },
             ticks: {
               min: 0,

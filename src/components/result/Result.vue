@@ -23,7 +23,7 @@
       you need to be familiar with <strong>{{ kanjiPercentageInfo }}</strong>
       the most frequent kanji.
     </p>
-    <Chart
+    <FrequencyChart
       :height="500"
       :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
       :showCount="showCount"
@@ -55,12 +55,12 @@
 <script>
 import kanjiDatasets from '../../data/kanji-datasets';
 import getResult from '../../service/get-result';
-import Chart from './Chart.vue';
+import FrequencyChart from './FrequencyChart.vue';
 
 export default {
   name: 'Result',
   components: {
-    Chart,
+    FrequencyChart,
   },
   computed: {
     kanjiPercentageInfo() {
