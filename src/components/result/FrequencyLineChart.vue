@@ -33,10 +33,13 @@ export default {
         responsive: true,
         scales: {
           xAxes: [{
+            gridLines: {
+              display: false,
+            },
             scaleLabel: {
               display: true,
               fontSize: 16,
-              labelString: '# of kanji sorted by frequency',
+              labelString: '# of all kanji sorted by frequency',
             },
             ticks: {
               min: 0,
@@ -68,7 +71,7 @@ export default {
             label: () => false,
             title: points => points.length > 0 // eslint-disable-line no-confusing-arrow
               ? `To know ${Math.round(points[0].yLabel * 100)}% of kanji in the provided text
-you need to be familiar with ${points[0].xLabel + 1} the most frequent kanji.`
+you need to be familiar with the ${points[0].xLabel + 1} most frequent kanji.`
               : '',
           },
           caretPadding: 10,

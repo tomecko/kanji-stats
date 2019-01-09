@@ -56,8 +56,15 @@
       </template>
     </section>
     <h2>Found kanji vs kanji frequency</h2>
-    <div class="frequency-chart">
+    <div class="frequency-charts">
       <FrequencyLineChart
+        class="chart"
+        :height="400"
+        :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+        :showCount="showCount"
+      />
+      <FrequencyBarChart
+        class="chart"
         :height="400"
         :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
         :showCount="showCount"
@@ -78,12 +85,14 @@
 import kanjiDatasets from '../../data/kanji-datasets';
 import getResult from '../../service/get-result';
 import Count from './Count.vue';
+import FrequencyBarChart from './FrequencyBarChart.vue';
 import FrequencyLineChart from './FrequencyLineChart.vue';
 
 export default {
   name: 'Result',
   components: {
     Count,
+    FrequencyBarChart,
     FrequencyLineChart,
   },
   computed: {
@@ -132,9 +141,20 @@ export default {
   top: 20px;
 }
 
-.frequency-chart {
-  margin-bottom: 30px;
+.frequency-charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .chart {
+    margin-bottom: 30px;
+    width: 48%;
+    @media (max-width: 1100px) {
+      width: 100%;
+    }
+  }
 }
+
 
 .result-section {
   margin-bottom: 30px;
