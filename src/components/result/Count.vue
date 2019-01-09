@@ -19,19 +19,28 @@ export default {
 
 .count {
   align-items: center;
-  display: flex;
   margin-right: 40px;
 }
 
 .value {
-  color: $themeColor;
+  color: $primary;
   font-size: 3em;
 }
 
 .text {
   font-weight: 700;
   line-height: 1.2;
-  margin: 0 0 0 .6em;
+  margin: 0;
   text-transform: uppercase;
+}
+
+@media (min-width:800px) {
+  .count {
+    display: flex;
+  }
+
+  .text {
+    margin-left: .6em;
+  }
 }
 </style>

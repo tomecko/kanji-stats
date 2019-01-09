@@ -1,10 +1,10 @@
 <script>
 import { Line, mixins } from 'vue-chartjs';
 
-import { THEME_COLOR, THEME_COLOR_LIGHT } from '../../global';
+import { PRIMARY, SECONDARY } from '../../global';
 
 export default {
-  name: 'FrequencyChart',
+  name: 'FrequencyLineChart',
   extends: Line,
   mixins: [mixins.reactiveData],
   mounted() {
@@ -85,8 +85,9 @@ you need to be familiar with ${points[0].xLabel + 1} the most frequent kanji.`
     getChartData() {
       return {
         datasets: [{
-          backgroundColor: THEME_COLOR_LIGHT,
-          borderColor: THEME_COLOR,
+          backgroundColor: SECONDARY,
+          borderColor: PRIMARY,
+          borderWidth: 5,
           data: this.kanjiInfos
             .map((info, i) => ({
               x: i,

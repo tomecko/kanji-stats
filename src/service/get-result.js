@@ -1,6 +1,7 @@
 import {
   intersection,
   mapValues,
+  sortBy,
   uniq,
   values,
 } from 'lodash';
@@ -34,7 +35,10 @@ const getKanjiInfos = (inputChars, kanjiLimit, foundKanjisCount) => data => data
 export default function (inputText, kanjiLimit) {
   const inputChars = uniq(inputText.split(''));
 
-  const foundKanjis = intersection(inputChars, allKanjis);
+  const foundKanjis = sortBy(
+    intersection(inputChars, allKanjis),
+    kanji => allKanjis.indexOf(kanji),
+  );
   const kanjiInfos = mapValues(
     kanjiDatasets,
     getKanjiInfos(inputChars, kanjiLimit, foundKanjis.length),

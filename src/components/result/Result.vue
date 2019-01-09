@@ -17,43 +17,52 @@
         </option>
       </select>
     </p>
-    <div class="counts">
+    <section class="result-section">
       <Count
         :count="result.foundKanjis.length"
       >
         distinct kanji found
       </Count>
-      <Count
-        :count="kanjiPercentageInfo"
-      >
-        the most frequently used kanji needed<br/>
-        to know {{ kanjiPercentage * 100 }}% kanji found in the text
-      </Count>
+      <ul class="kanjis">
+        <li
+          v-for="kanji in result.foundKanjis.slice(0, foundKanjiLimit)"
+          class="kanji"
+          :key="kanji"
+        >
+          <a
+            :href="`https://jisho.org/search/${kanji}%20%23kanji`"
+            target="_blank"
+            title="open in jisho.org"
+          >
+            {{ kanji }}
+          </a>
+        </li>
+      </ul>
+      <template v-if="result.foundKanjis.length > foundKanjiLimitDefault">
+        <button
+          class="small"
+          @click="foundKanjiLimitUser = 0"
+          v-if="foundKanjiLimitUser === null"
+        >
+          show more
+        </button>
+        <button
+          class="small"
+          @click="foundKanjiLimitUser = null"
+          v-else
+        >
+          show less
+        </button>
+      </template>
+    </section>
+    <h2>Found kanji vs kanji frequency</h2>
+    <div class="frequency-chart">
+      <FrequencyLineChart
+        :height="400"
+        :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+        :showCount="showCount"
+      />
     </div>
-    <h2>
-      How many the&nbsp;most&nbsp;frequently used&nbsp;kanji
-      do&nbsp;I&nbsp;need to&nbsp;know&nbsp;X% of&nbsp;kanji&nbsp;in&nbsp;the&nbsp;text?
-    </h2>
-    <FrequencyChart
-      :height="400"
-      :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
-      :showCount="showCount"
-    />
-    <h2>All found kanji</h2>
-    <p>
-      And here comes the list of {{ showCount }} kanji sorted by frequency.<br/>
-      Kanji found in the text are <strong>bolded</strong>.
-    </p>
-    <ul class="kanjis">
-      <li
-        v-for="(info, i) in result.kanjiInfos[selectedKanjiDataset]"
-        :class="['kanji', { found: info.found }]"
-        :key="info.kanji"
-        :title="getKanjiTitle(info, i)"
-      >
-        {{ info.kanji }}
-      </li>
-    </ul>
     <hr />
     <p>
       Kanji frequency data crafted by
@@ -69,18 +78,20 @@
 import kanjiDatasets from '../../data/kanji-datasets';
 import getResult from '../../service/get-result';
 import Count from './Count.vue';
-import FrequencyChart from './FrequencyChart.vue';
+import FrequencyLineChart from './FrequencyLineChart.vue';
 
 export default {
   name: 'Result',
   components: {
     Count,
-    FrequencyChart,
+    FrequencyLineChart,
   },
   computed: {
-    kanjiPercentageInfo() {
-      return this.result.kanjiInfos[this.selectedKanjiDataset]
-        .findIndex(info => info.foundAccPercentage > this.kanjiPercentage) + 1;
+    foundKanjiLimit() {
+      if (this.foundKanjiLimitUser !== null) {
+        return this.foundKanjiLimitUser === 0 ? 9999 : this.foundKanjiLimitUser;
+      }
+      return this.foundKanjiLimitDefault;
     },
     result() {
       return getResult(this.inputText, this.showCount);
@@ -88,18 +99,13 @@ export default {
   },
   data() {
     return {
+      foundKanjiLimitDefault: 300,
+      foundKanjiLimitUser: null,
       kanjiDatasets,
       kanjiPercentage: 0.9,
       showCount: 2000,
       selectedKanjiDataset: 'wikipedia',
     };
-  },
-  methods: {
-    getKanjiTitle(info, i) {
-      return `${info.kanji}
-#${i + 1} by frequency
-${info.found ? '' : 'not '}found in the text`;
-    },
   },
   props: {
     inputText: String,
@@ -126,34 +132,40 @@ ${info.found ? '' : 'not '}found in the text`;
   top: 20px;
 }
 
-.counts {
-  display: flex;
-  flex-wrap: wrap;
+.frequency-chart {
+  margin-bottom: 30px;
+}
+
+.result-section {
   margin-bottom: 30px;
 }
 
 .kanjis {
   list-style: none;
   padding: 0;
+
+  &:hover .kanji {
+    opacity: .7;
+  }
+
+  .kanji {
+    display: inline-block;
+    padding: 2px 3px;
+    transition: .3s opacity;
+
+    &:hover {
+      background-color: #ddd;
+      opacity: 1;
+    }
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
-.kanji {
-  display: inline-block;
-  font-size: .8em;
-  color: lighten(#000, 80%);
-
-  &.found {
-    color: lighten(#000, 20%);
-  }
-
-  &:hover {
-    background: #222;
-    color: #fff;
-    transform: scale(2);
-  }
-
-  &:hover:not(.found) {
-    background: #666;
-  }
-}
 </style>

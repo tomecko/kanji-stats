@@ -15,7 +15,7 @@ export default {
 @import '../../global';
 
 .header {
-  background: $themeColor;
+  background: $primary;
   border-bottom: 1px solid #999;
   color: #fff;
   height: 60px;
