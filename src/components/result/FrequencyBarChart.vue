@@ -63,7 +63,7 @@ export default {
           borderWidth: 1,
           callbacks: {
             label: () => false,
-            title: data => data[0].yLabel === 0 // eslint-disable-line no-confusing-arrow
+            title: data => data[0].yLabel === 0
               ? `No kanji from ${data[0].xLabel} kanji frequency group has been found in the text.`
               : `Within ${data[0].xLabel} kanji frequency chunk
 ${data[0].yLabel} kanji have been found in the provided text (${Math.round(data[0].yLabel / CHUNK_SIZE * 100)}%).`,

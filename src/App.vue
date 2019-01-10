@@ -1,6 +1,10 @@
 <template>
   <div id="app">
     <Header class="header" />
+    <Wanikani
+      @onAPIKeyUpdate="onAPIKeyUpdate"
+      :wanikani="wanikani"
+    />
     <Input
       @goToResults="goToResults"
       v-show="view === 'input'"
@@ -21,6 +25,8 @@ import './App.scss';
 import Header from './components/header/Header.vue';
 import Input from './components/input/Input.vue';
 import Result from './components/result/Result.vue';
+import Wanikani from './components/wanikani/Wanikani.vue';
+import WanikaniAPI from './service/wanikani';
 
 export default {
   name: 'app',
@@ -28,11 +34,13 @@ export default {
     Header,
     Input,
     Result,
+    Wanikani,
   },
   data() {
     return {
       inputText: '',
       view: 'input', // TODO: consider adding router
+      wanikani: null,
     };
   },
   methods: {
@@ -42,6 +50,21 @@ export default {
     goToResults(inputText) {
       this.view = 'result';
       this.inputText = inputText;
+    },
+    onAPIKeyUpdate(APIKey) {
+      const wanikani = new WanikaniAPI(APIKey);
+      Promise.all([
+        wanikani.getKanjiInfos(),
+        wanikani.getKanjiChars(),
+        wanikani.getUser(),
+      ])
+        .then(([kanji, kanjiChars, user]) => {
+          this.wanikani = { kanji, kanjiChars, user };
+        })
+        .catch((err) => {
+          console.error(err);
+          this.wanikani = null;
+        });
     },
   },
 };
