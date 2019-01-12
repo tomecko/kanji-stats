@@ -9,9 +9,15 @@ export default class Wanikani {
     return this.get('user');
   }
 
+  getSrsStages() {
+    return this.get('srs_stages')
+      .then(({ data }) => data);
+  }
+
   getKanjiInfos() {
     return this.getPagedData('assignments?subject_types=kanji&unlocked=true')
       .then(all => all.map(({ data }) => ({
+        level: data.level,
         srsStage: data.srs_stage,
         srsStageName: data.srs_stage_name,
         subjectId: data.subject_id,

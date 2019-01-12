@@ -1,9 +1,9 @@
 <template>
   <div class="wanikani">
     <input
-      @blur="$emit('onAPIKeyUpdate', inputText)"
+      @blur="$emit('onAPIKeyUpdate', APIKey)"
       :class="{ valid: wanikani && Boolean(wanikani.user) }"
-      v-model="inputText"
+      v-model="APIKey"
       placeholder="paste WaniKani API v2 key…"
     >
   </div>
@@ -14,7 +14,7 @@ export default {
   name: 'Wanikani',
   data() {
     return {
-      inputText: '',
+      APIKey: '',
     };
   },
   props: {

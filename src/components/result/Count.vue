@@ -1,6 +1,6 @@
 <template>
   <div class="count">
-    <strong class="value">{{ count }}</strong>
+    <strong class="value">{{ countText }}</strong>
     <p class="text"><slot /></p>
   </div>
 </template>
@@ -8,8 +8,16 @@
 <script>
 export default {
   name: 'Count',
+  computed: {
+    countText() {
+      return this.percentage
+        ? `${Math.round(this.count * 100)}%`
+        : this.count;
+    },
+  },
   props: {
     count: Number,
+    percentage: Boolean,
   },
 };
 </script>

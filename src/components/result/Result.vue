@@ -23,6 +23,10 @@
       >
         distinct kanji found
       </Count>
+      <p>
+        All unique kanji found in the provided text
+        (sorted by frequency based on <i>{{ selectedKanjiDataset }}</i>):
+      </p>
       <ul class="kanjis">
         <li
           v-for="kanji in result.foundKanjis.slice(0, foundKanjiLimit)"
@@ -31,8 +35,8 @@
         >
           <a
             :href="`https://jisho.org/search/${kanji}%20%23kanji`"
-            target="_blank"
             title="open in jisho.org"
+            target="_blank"
           >
             {{ kanji }}
           </a>
@@ -55,21 +59,29 @@
         </button>
       </template>
     </section>
-    <h2>Found kanji vs kanji frequency</h2>
-    <div class="frequency-charts">
-      <FrequencyLineChart
-        class="chart"
-        :height="400"
-        :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
-        :showCount="showCount"
+    <section class="result-section">
+      <Wanikani
+        :foundKanji="result.foundKanjis"
+        :wanikani="wanikani"
       />
-      <FrequencyBarChart
-        class="chart"
-        :height="400"
-        :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
-        :showCount="showCount"
-      />
-    </div>
+    </section>
+    <section class="result-section">
+      <h2>Found kanji vs kanji frequency</h2>
+      <div class="frequency-charts">
+        <FrequencyLineChart
+          class="chart"
+          :height="400"
+          :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+          :showCount="showCount"
+        />
+        <FrequencyBarChart
+          class="chart"
+          :height="400"
+          :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+          :showCount="showCount"
+        />
+      </div>
+    </section>
     <hr />
     <p>
       Kanji frequency data crafted by
@@ -87,6 +99,7 @@ import getResult from '../../service/get-result';
 import Count from './Count.vue';
 import FrequencyBarChart from './FrequencyBarChart.vue';
 import FrequencyLineChart from './FrequencyLineChart.vue';
+import Wanikani from './Wanikani.vue';
 
 export default {
   name: 'Result',
@@ -94,6 +107,7 @@ export default {
     Count,
     FrequencyBarChart,
     FrequencyLineChart,
+    Wanikani,
   },
   computed: {
     foundKanjiLimit() {
@@ -118,6 +132,7 @@ export default {
   },
   props: {
     inputText: String,
+    wanikani: Object,
   },
 };
 </script>
@@ -131,6 +146,10 @@ export default {
   position: relative;
 }
 
+.result-section {
+  margin-bottom: 30px;
+}
+
 .back {
   margin-bottom: 15px;
 }
@@ -139,25 +158,6 @@ export default {
   position: absolute;
   right: 20px;
   top: 20px;
-}
-
-.frequency-charts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  .chart {
-    margin-bottom: 30px;
-    width: 48%;
-    @media (max-width: 1100px) {
-      width: 100%;
-    }
-  }
-}
-
-
-.result-section {
-  margin-bottom: 30px;
 }
 
 .kanjis {
@@ -170,8 +170,13 @@ export default {
 
   .kanji {
     display: inline-block;
+    font-size: 1.2em;
     padding: 2px 3px;
     transition: .3s opacity;
+
+    &.wanikani-learned {
+      font-weight: 700;
+    }
 
     &:hover {
       background-color: #ddd;
@@ -184,6 +189,20 @@ export default {
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+}
+
+.frequency-charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .chart {
+    margin-bottom: 30px;
+    width: 48%;
+    @media (max-width: 1100px) {
+      width: 100%;
     }
   }
 }

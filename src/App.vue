@@ -13,6 +13,7 @@
     <Result
       @goToInput="goToInput"
       :inputText="inputText"
+      :wanikani="wanikani"
       v-if="view === 'result'"
       class="result"
     />
@@ -56,10 +57,13 @@ export default {
       Promise.all([
         wanikani.getKanjiInfos(),
         wanikani.getKanjiChars(),
+        wanikani.getSrsStages(),
         wanikani.getUser(),
       ])
-        .then(([kanji, kanjiChars, user]) => {
-          this.wanikani = { kanji, kanjiChars, user };
+        .then(([kanji, kanjiChars, srsStages, user]) => {
+          this.wanikani = {
+            kanji, kanjiChars, srsStages, user,
+          };
         })
         .catch((err) => {
           console.error(err);
