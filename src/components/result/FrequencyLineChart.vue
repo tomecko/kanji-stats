@@ -14,17 +14,11 @@ export default {
     return {
       chartData: this.getChartData(),
       chartOptions: {
-        animation: {
-          duration: 0,
-        },
         elements: {
           point: {
             hitRadius: 10,
             radius: 0,
           },
-        },
-        hover: {
-          animationDuration: 200,
         },
         legend: {
           display: false,
@@ -62,11 +56,12 @@ export default {
             type: 'linear',
           }],
         },
+        title: {
+          display: true,
+          text: 'Accumulative Frequency',
+        },
         tooltips: {
           axis: 'x',
-          backgroundColor: '#eee',
-          borderColor: '#ccc',
-          borderWidth: 1,
           callbacks: {
             label: () => false,
             title: points => points.length > 0
@@ -78,7 +73,6 @@ you need to be familiar with the ${points[0].xLabel + 1} most frequent kanji.`
           displayColors: false,
           filter: (point, data) => point.yLabel !== data.datasets[0].data[point.index - 1].y,
           mode: 'index',
-          titleFontColor: '#222',
           titleMarginBottom: 0,
         },
       },

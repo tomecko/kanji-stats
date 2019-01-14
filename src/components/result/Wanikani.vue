@@ -8,37 +8,39 @@
       you know (GURU+) {{ learnedKanjiCount }} kanji<br/>
       out of all {{ foundKanji.length }} kanji found in the text
     </Count>
-    <WanikaniStages
-      class="stages"
-      :foundKanji="foundKanji"
-      :kanjiInfo="kanjiInfo"
-      :srsStages="wanikani.srsStages"
-    />
-    <p>wykres: x - levele, y - # kanji</p>
+    <div class="charts">
+      <WanikaniStages
+        class="stages"
+        :foundKanji="foundKanji"
+        :height="400"
+        :wanikani="wanikani"
+      />
+      <WanikaniLevels
+        class="levels"
+        :foundKanji="foundKanji"
+        :height="200"
+        :wanikani="wanikani"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import Count from './Count.vue';
+import WanikaniLevels from './WanikaniLevels.vue';
 import WanikaniStages from './WanikaniStages.vue';
 
 export default {
   name: 'Wanikani',
-  components: { Count, WanikaniStages },
+  components: { Count, WanikaniLevels, WanikaniStages },
   computed: {
     learnedKanjiCount() {
       return this.foundKanji
-        .filter(kanji => this.kanjiInfo[kanji] && this.kanjiInfo[kanji].srsStage >= 5).length;
+        .filter(kanji => this.wanikani.kanjiInfos[kanji]
+          && this.wanikani.kanjiInfos[kanji].srsStage >= 5).length;
     },
     learnedKanjiRatio() {
       return this.learnedKanjiCount / this.foundKanji.length;
-    },
-    kanjiInfo() {
-      return this.wanikani
-        ? this.wanikani.kanji
-          .map(info => ({ ...info, char: this.wanikani.kanjiChars[info.subjectId] }))
-          .reduce((acc, info) => ({ ...acc, [info.char]: info }), {})
-        : null;
     },
   },
   props: {
@@ -49,8 +51,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.stages {
-  max-width: 400px;
+.charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   padding: 30px 0;
+}
+.stages {
+  flex: 1;
+  max-width: 400px;
+}
+.levels {
+  flex: 1;
+  margin-left: 50px;
+  min-width: 800px;
 }
 </style>

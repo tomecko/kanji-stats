@@ -36,7 +36,7 @@ export default {
             scaleLabel: {
               display: true,
               fontSize: 16,
-              labelString: 'frequency chunks of all kanji',
+              labelString: 'frequency group of all kanji',
             },
             stacked: true,
           }],
@@ -56,20 +56,20 @@ export default {
             },
           }],
         },
+        title: {
+          display: true,
+          text: 'Distribution by Frequency Group',
+        },
         tooltips: {
           axis: 'x',
-          backgroundColor: '#eee',
-          borderColor: '#ccc',
-          borderWidth: 1,
           callbacks: {
             label: () => false,
             title: data => data[0].yLabel === 0
               ? `No kanji from ${data[0].xLabel} kanji frequency group has been found in the text.`
-              : `${data[0].yLabel} kanji from ${data[0].xLabel} kanji frequency chunk
+              : `${data[0].yLabel} kanji from ${data[0].xLabel} kanji frequency group
 have been found in the provided text (${Math.round(data[0].yLabel / CHUNK_SIZE * 100)}%).`,
           },
           mode: 'index',
-          titleFontColor: '#222',
           titleMarginBottom: 0,
         },
       },

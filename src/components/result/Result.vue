@@ -66,7 +66,7 @@
       />
     </section>
     <section class="result-section">
-      <h2>Found kanji vs kanji frequency</h2>
+      <h2>Kanji frequency</h2>
       <div class="frequency-charts">
         <FrequencyLineChart
           class="chart"

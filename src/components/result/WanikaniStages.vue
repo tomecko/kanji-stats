@@ -1,9 +1,8 @@
 <script>
 import { groupBy } from 'lodash';
-import { Pie, mixins } from 'vue-chartjs';
+import { mixins, Pie } from 'vue-chartjs';
 
-import { WANIKANI_STAGES } from '../../global';
-import { formatPercent } from '../../helpers';
+import { formatPercent, getStageColor } from '../../helpers';
 
 export default {
   name: 'WanikaniStages',
@@ -18,7 +17,11 @@ export default {
       chartOptions: {
         cutoutPercentage: 60,
         legend: {
-          display: false,
+          position: 'bottom',
+        },
+        title: {
+          display: true,
+          text: 'Wanikani Stages',
         },
         tooltips: {
           callbacks: {
@@ -26,7 +29,7 @@ export default {
               const dataset = all.datasets[0];
               const count = dataset.data[i];
               const total = dataset.data.reduce((acc, val) => acc + val);
-              return `${all.labels[i]}: ${formatPercent(count / total)} (${count} kanji out of ${total})`;
+              return ` ${all.labels[i]}: ${formatPercent(count / total)} (${count} kanji out of ${total})`;
             },
           },
         },
@@ -35,33 +38,38 @@ export default {
   },
   methods: {
     getChartData() {
+      const NOT_ON_WANIKANI = 'not on WaniKani';
       const groupedKanji = groupBy(
         this.foundKanji,
-        kanji => this.kanjiInfo[kanji] === undefined ? null : this.kanjiInfo[kanji].srsStageName,
+        kanji => this.wanikani.kanjiInfos[kanji] === undefined
+          ? NOT_ON_WANIKANI
+          : this.wanikani.kanjiInfos[kanji].srsStageName,
       );
       return {
         datasets: [{
-          backgroundColor: this.srsStages
-          // eslint-disable-next-line camelcase
-            .map(({ srs_stage_name }) => srs_stage_name.split(' ')[0].toUpperCase())
-            .map(stage => WANIKANI_STAGES[stage])
-            .concat('#ddd'),
-          data: this.srsStages
+          backgroundColor: this.wanikani.srsStages
+            .map(getStageColor)
+            .concat('#ddd')
+            .concat('#aaa'),
+          data: this.wanikani.srsStages
             // eslint-disable-next-line camelcase
             .map(({ srs_stage_name }) => groupedKanji[srs_stage_name]
               ? groupedKanji[srs_stage_name].length
               : 0)
-            .concat(groupedKanji.null.length),
+            .concat(groupedKanji[undefined].length)
+            .concat(groupedKanji[NOT_ON_WANIKANI].length),
         }],
-        // eslint-disable-next-line camelcase
-        labels: this.srsStages.map(({ srs_stage_name }) => srs_stage_name).concat('unlocked'),
+        labels: this.wanikani.srsStages
+          // eslint-disable-next-line camelcase
+          .map(({ srs_stage_name }) => srs_stage_name)
+          .concat('Unlocked')
+          .concat(NOT_ON_WANIKANI),
       };
     },
   },
   props: {
     foundKanji: Array,
-    kanjiInfo: Object,
-    srsStages: Array,
+    wanikani: Object,
   },
   watch: {
     kanjiInfos() {

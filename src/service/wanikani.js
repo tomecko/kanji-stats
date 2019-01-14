@@ -1,3 +1,5 @@
+import { mapValues } from 'lodash';
+
 export default class Wanikani {
   static url = 'https://api.wanikani.com/v2/';
 
@@ -15,24 +17,33 @@ export default class Wanikani {
   }
 
   getKanjiInfos() {
+    return Promise.all([this.getKanjiStudyInfos(), this.getAllKanjiStaticInfos()])
+      .then(([studyInfos, staticInfos]) => {
+        const studyInfosMap = studyInfos
+          .reduce((acc, info) => ({ ...acc, [info.subjectId]: info }), {});
+        return mapValues(staticInfos, (info => ({ ...info, ...studyInfosMap[info.id] })));
+      });
+  }
+
+  getKanjiStudyInfos() {
     return this.getPagedData('assignments?subject_types=kanji&unlocked=true')
       .then(all => all.map(({ data }) => ({
-        level: data.level,
         srsStage: data.srs_stage,
         srsStageName: data.srs_stage_name,
         subjectId: data.subject_id,
       })));
   }
 
-  getKanjiChars(path = 'subjects?types=kanji') {
+  getAllKanjiStaticInfos(path = 'subjects?types=kanji') {
     return this.getPagedData(path)
       .then(all => all
         .map(item => ({
           id: item.id,
           kanji: item.data.characters,
+          level: item.data.level,
         }))
-        .reduce((acc, { id, kanji }) => ({ ...acc, [id]: kanji }), {}))
-      .then(ids => ids.length === 0 ? Promise.reject(Error('no kanji ids')) : Promise.resolve(ids));
+        .reduce((acc, subject) => ({ ...acc, [subject.kanji]: subject }), {}))
+      .then(ids => ids.length === 0 ? Promise.reject(Error('no kanji subjects')) : Promise.resolve(ids));
   }
 
   get(path) {

@@ -21,6 +21,16 @@
 </template>
 
 <script>
+  // finish WK levels chart: tooltip
+// Wanikani input UX
+// persist API Key
+// google analytics
+// dataset picker, add source link
+// not on WK count and list
+// code cleanup
+// visual improvements, beautify
+// test! QA
+
 import './App.scss';
 
 import Header from './components/header/Header.vue';
@@ -56,13 +66,12 @@ export default {
       const wanikani = new WanikaniAPI(APIKey);
       Promise.all([
         wanikani.getKanjiInfos(),
-        wanikani.getKanjiChars(),
         wanikani.getSrsStages(),
         wanikani.getUser(),
       ])
-        .then(([kanji, kanjiChars, srsStages, user]) => {
+        .then(([kanjiInfos, srsStages, user]) => {
           this.wanikani = {
-            kanji, kanjiChars, srsStages, user,
+            kanjiInfos, srsStages, user,
           };
         })
         .catch((err) => {
