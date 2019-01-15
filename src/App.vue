@@ -56,7 +56,7 @@ export default {
       APIKey: null,
       inputText: localStorage.getItem('inputText') || '',
       view: localStorage.getItem('view') || 'input', // TODO: consider adding router
-      wanikani: null,
+      wanikani: { status: 'empty' },
     };
   },
   methods: {
@@ -70,11 +70,11 @@ export default {
     onAPIKeyUpdate(APIKey) {
       this.APIKey = APIKey;
       if (!APIKey || APIKey.length === 0) {
-        this.wanikani = null;
+        this.wanikani = { status: 'empty' };
         return;
       }
       const wanikani = new WanikaniAPI(APIKey);
-      this.wanikani = { pending: true };
+      this.wanikani = { status: 'pending' };
       Promise.all([
         wanikani.getKanjiInfos(),
         wanikani.getSrsStages(),
@@ -83,13 +83,13 @@ export default {
         .then(([kanjiInfos, srsStages, user]) => {
           if (this.APIKey === APIKey) {
             this.wanikani = {
-              kanjiInfos, srsStages, user,
+              kanjiInfos, srsStages, status: 'valid', user,
             };
           }
         })
         .catch((error) => {
           console.error(error);
-          this.wanikani = { APIKey, error };
+          this.wanikani = { APIKey, error, status: 'error' };
         });
     },
     setView(view) {

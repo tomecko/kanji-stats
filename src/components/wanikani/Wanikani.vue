@@ -1,12 +1,12 @@
 <template>
   <div
     class="wanikani"
-    :class="status"
+    :class="wanikani.status"
   >
     <span class="logo"></span>
     <span
       class="user-info"
-      v-if="wanikani && Boolean(wanikani.user)"
+      v-if="wanikani.status === 'valid'"
     >
       Hi, {{ wanikani.user.data.username }}!
       <span class="actions">
@@ -28,22 +28,6 @@
 <script>
 export default {
   name: 'Wanikani',
-  computed: {
-    status() {
-      if (this.wanikani) {
-        if (this.wanikani.user) {
-          return 'valid';
-        }
-        if (this.wanikani.error && this.wanikani.APIKey === this.APIKey) {
-          return 'error';
-        }
-        if (this.wanikani.pending) {
-          return 'pending';
-        }
-      }
-      return 'empty';
-    },
-  },
   created() {
     if (this.APIKey) {
       this.emitAPIKey(this.APIKey);

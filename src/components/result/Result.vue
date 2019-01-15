@@ -65,7 +65,7 @@
           </button>
         </template>
       </section>
-      <section v-if="wanikani" class="result-section">
+      <section v-if="wanikani.status === 'valid'" class="result-section">
         <Wanikani
           :foundKanji="result.foundKanjis"
           :wanikani="wanikani"
