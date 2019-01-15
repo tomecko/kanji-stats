@@ -17,8 +17,13 @@ export default {
       chartOptions: {
         cutoutPercentage: 60,
         legend: {
-          position: 'bottom',
+          labels: {
+            filter: (data, all) => all.datasets[0].data[data.index] > 0,
+          },
+          position: 'top',
         },
+        maintainAspectRatio: false,
+        responsive: true,
         title: {
           display: true,
           text: 'Wanikani Stages',
@@ -38,7 +43,7 @@ export default {
   },
   methods: {
     getChartData() {
-      const NOT_ON_WANIKANI = 'not on WaniKani';
+      const NOT_ON_WANIKANI = 'Not on WaniKani';
       const groupedKanji = groupBy(
         this.foundKanji,
         kanji => this.wanikani.kanjiInfos[kanji] === undefined

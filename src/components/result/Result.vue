@@ -205,8 +205,8 @@ export default {
   justify-content: space-between;
 
   .chart {
-    margin-bottom: 30px;
-    width: 48%;
+    margin-bottom: 50px;
+    width: 46%;
     @media (max-width: 1100px) {
       width: 100%;
     }

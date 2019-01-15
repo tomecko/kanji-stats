@@ -1,24 +1,31 @@
 <template>
   <div>
     <h2>WaniKani</h2>
-    <Count
-      :count="learnedKanjiRatio"
-      percentage
-    >
-      you know (GURU+) {{ learnedKanjiCount }} kanji<br/>
-      out of all {{ foundKanji.length }} kanji found in the text
-    </Count>
+    <div class="counts">
+      <Count
+        :count="wanikani.user.data.level"
+      >
+        your current WaniKani level
+      </Count>
+      <Count
+        :count="learnedKanjiRatio"
+        percentage
+      >
+        you know (GURU+) {{ learnedKanjiCount }} kanji<br/>
+        out of all {{ foundKanji.length }} kanji found in the text
+      </Count>
+    </div>
     <div class="charts">
       <WanikaniStages
-        class="stages"
+        class="chart"
         :foundKanji="foundKanji"
         :height="400"
         :wanikani="wanikani"
       />
       <WanikaniLevels
-        class="levels"
+        class="chart"
         :foundKanji="foundKanji"
-        :height="200"
+        :height="400"
         :wanikani="wanikani"
       />
     </div>
@@ -51,19 +58,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.counts {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .charts {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 30px 0;
 }
-.stages {
-  flex: 1;
-  max-width: 400px;
-}
-.levels {
-  flex: 1;
-  margin-left: 50px;
-  min-width: 800px;
+
+.chart {
+  margin-bottom: 50px;
+  width: 46%;
+  @media (max-width: 1100px) {
+    width: 100%;
+  }
 }
 </style>

@@ -29,7 +29,7 @@ export default {
             scaleLabel: {
               display: true,
               fontSize: 16,
-              labelString: 'levels',
+              labelString: 'level',
             },
             stacked: true,
             ticks: {
