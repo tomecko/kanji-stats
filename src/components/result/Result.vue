@@ -16,6 +16,8 @@
           {{ name }}
         </option>
       </select>
+      {{ }}
+      <small><a href="https://github.com/scriptin/kanji-frequency">(source)</a></small>
     </p>
     <p v-if="result.foundKanjis.length === 0">
       No kanji found.
