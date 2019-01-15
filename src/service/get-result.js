@@ -12,7 +12,7 @@ const allKanjis = uniq(values(kanjiDatasets)
   .map(dataset => dataset.map(([kanji]) => kanji).slice(1, -1))
   .reduce((acc, kanjis) => acc.concat(kanjis)));
 
-const getKanjiInfos = (inputChars, kanjiLimit, foundKanjisCount) => data => data
+const getKanjiInfos = (inputChars, kanjiLimit, foundKanjiCount) => data => data
   .filter((_, i) => i > 0)
   .filter((_, i) => i < kanjiLimit)
   .map(info => ({
@@ -24,7 +24,7 @@ const getKanjiInfos = (inputChars, kanjiLimit, foundKanjisCount) => data => data
     const previous = acc[i - 1];
     const previousFoundAcc = previous ? previous.foundAcc : 0;
     const foundAcc = previousFoundAcc + Number(info.found);
-    const foundAccPercentage = foundAcc / foundKanjisCount;
+    const foundAccPercentage = foundAcc / foundKanjiCount;
     return acc.concat({
       ...info,
       foundAcc,
@@ -35,14 +35,14 @@ const getKanjiInfos = (inputChars, kanjiLimit, foundKanjisCount) => data => data
 export default function (inputText, kanjiLimit) {
   const inputChars = uniq(inputText.split(''));
 
-  const foundKanjis = sortBy(
+  const foundKanji = sortBy(
     intersection(inputChars, allKanjis),
     kanji => allKanjis.indexOf(kanji),
   );
   const kanjiInfos = mapValues(
     kanjiDatasets,
-    getKanjiInfos(inputChars, kanjiLimit, foundKanjis.length),
+    getKanjiInfos(inputChars, kanjiLimit, foundKanji.length),
   );
 
-  return { foundKanjis, kanjiInfos };
+  return { foundKanji, kanjiInfos };
 }

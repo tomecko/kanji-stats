@@ -17,10 +17,7 @@ export default {
       chartOptions: {
         cutoutPercentage: 60,
         legend: {
-          labels: {
-            filter: (data, all) => all.datasets[0].data[data.index] > 0,
-          },
-          position: 'top',
+          display: false,
         },
         maintainAspectRatio: false,
         responsive: true,

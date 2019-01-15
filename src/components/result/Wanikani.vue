@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <h2>WaniKani</h2>
     <div class="counts">
       <Count
@@ -11,8 +11,8 @@
         :count="learnedKanjiRatio"
         percentage
       >
-        you know (GURU+) {{ learnedKanjiCount }} kanji<br/>
-        out of all {{ foundKanji.length }} kanji found in the text
+        you know {{ learnedKanjiCount }} kanji (GURU+)<br/>
+        out of all {{ foundKanji.length }} kanji found
       </Count>
     </div>
     <div class="charts">
@@ -29,7 +29,7 @@
         :wanikani="wanikani"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

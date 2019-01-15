@@ -1,6 +1,7 @@
 import Chart from 'chart.js';
 
 Chart.defaults.global.title.fontSize = 20;
+Chart.defaults.global.title.padding = 20;
 
 export const PRIMARY = '#e26f6f';
 export const PRIMARY_LIGHT = '#eda8a8';
