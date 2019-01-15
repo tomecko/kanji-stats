@@ -50,7 +50,7 @@ export default class Wanikani {
     return fetch(`${Wanikani.url}${path.replace(Wanikani.url, '')}`, {
       headers: new Headers({ Authorization: `Bearer ${this.APIKey}` }),
     })
-      .then(response => response.ok ? response : Promise.reject())
+      .then(response => response.ok ? response : Promise.reject(new Error(response.statusText || 'error')))
       .then(response => response.json());
   }
 

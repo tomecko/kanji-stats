@@ -1,7 +1,13 @@
 $primary: #e26f6f;
 $primaryDark: darken(#e26f6f, 40%);
 $secondary: #ddd;
+
+$positive: #9ccc65;
+$negative: #f44336;
+$pending: #fff176;
+
 $transitionDuration: .3s;
+$wanikaniBarSize: 35px;
 
 $wanikaniApprentice: #dd0093;
 $wanikaniGuru: #882d9e;
@@ -9,7 +15,13 @@ $wanikaniMaster: #294ddb;
 $wanikaniEnlightened: #0093dd;
 $wanikaniBurned: #434343;
 
+@keyframes opacityPulse {
+  0% { opacity: 1 }
+  100% { opacity: .6 }
+}
+
 body {
+  background: #f5f5f5;
   color: #222;
   font-family: sans-serif;
   min-width: 320px;
@@ -42,7 +54,7 @@ button {
     background: #eee;
   }
 
-  &.primary-cta {
+  &.primary {
     background: $primary;
     border-color: $primaryDark;
     color: #fff;
@@ -55,6 +67,11 @@ button {
   &.small {
     font-size: .8em;
     padding: 5px 7px;
+  }
+
+  &.text {
+    background: transparent;
+    border: 0;
   }
 }
 

@@ -17,79 +17,84 @@
         </option>
       </select>
     </p>
-    <section class="result-section">
-      <Count
-        :count="result.foundKanjis.length"
-      >
-        distinct kanji found
-      </Count>
-      <p>
-        All unique kanji found in the provided text
-        (sorted by frequency based on <i>{{ selectedKanjiDataset }}</i>):
-      </p>
-      <ul class="kanjis">
-        <li
-          v-for="kanji in result.foundKanjis.slice(0, foundKanjiLimit)"
-          class="kanji"
-          :key="kanji"
-        >
-          <a
-            :href="`https://jisho.org/search/${kanji}%20%23kanji`"
-            title="open in jisho.org"
-            target="_blank"
-          >
-            {{ kanji }}
-          </a>
-        </li>
-      </ul>
-      <template v-if="result.foundKanjis.length > foundKanjiLimitDefault">
-        <button
-          class="small"
-          @click="foundKanjiLimitUser = 0"
-          v-if="foundKanjiLimitUser === null"
-        >
-          show more
-        </button>
-        <button
-          class="small"
-          @click="foundKanjiLimitUser = null"
-          v-else
-        >
-          show less
-        </button>
-      </template>
-    </section>
-    <section class="result-section">
-      <Wanikani
-        :foundKanji="result.foundKanjis"
-        :wanikani="wanikani"
-      />
-    </section>
-    <section class="result-section">
-      <h2>Kanji frequency</h2>
-      <div class="frequency-charts">
-        <FrequencyLineChart
-          class="chart"
-          :height="400"
-          :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
-          :showCount="showCount"
-        />
-        <FrequencyBarChart
-          class="chart"
-          :height="400"
-          :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
-          :showCount="showCount"
-        />
-      </div>
-    </section>
-    <hr />
-    <p>
-      Kanji frequency data crafted by
-      <a href="https://github.com/scriptin">scriptin</a>
-      and gratefully grabbed from
-      <a href="https://github.com/scriptin/kanji-frequency">kanji-frequency</a>
-      (<a href="https://creativecommons.org/licenses/by/4.0/">CC&nbsp;BY&nbsp;4.0</a>)
+    <p v-if="result.foundKanjis.length === 0">
+      No kanji found.
     </p>
+    <template v-else>
+      <section class="result-section">
+        <Count
+          :count="result.foundKanjis.length"
+        >
+          distinct kanji found
+        </Count>
+        <p>
+          All unique kanji found in the provided text
+          (sorted by frequency based on <i>{{ selectedKanjiDataset }}</i>):
+        </p>
+        <ul class="kanjis">
+          <li
+            v-for="kanji in result.foundKanjis.slice(0, foundKanjiLimit)"
+            class="kanji"
+            :key="kanji"
+          >
+            <a
+              :href="`https://jisho.org/search/${kanji}%20%23kanji`"
+              title="open in jisho.org"
+              target="_blank"
+            >
+              {{ kanji }}
+            </a>
+          </li>
+        </ul>
+        <template v-if="result.foundKanjis.length > foundKanjiLimitDefault">
+          <button
+            class="small"
+            @click="foundKanjiLimitUser = 0"
+            v-if="foundKanjiLimitUser === null"
+          >
+            show more
+          </button>
+          <button
+            class="small"
+            @click="foundKanjiLimitUser = null"
+            v-else
+          >
+            show less
+          </button>
+        </template>
+      </section>
+      <section v-if="wanikani" class="result-section">
+        <Wanikani
+          :foundKanji="result.foundKanjis"
+          :wanikani="wanikani"
+        />
+      </section>
+      <section class="result-section">
+        <h2>Kanji frequency</h2>
+        <div class="frequency-charts">
+          <FrequencyLineChart
+            class="chart"
+            :height="400"
+            :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+            :showCount="showCount"
+          />
+          <FrequencyBarChart
+            class="chart"
+            :height="400"
+            :kanjiInfos="result.kanjiInfos[selectedKanjiDataset]"
+            :showCount="showCount"
+          />
+        </div>
+      </section>
+      <hr />
+      <p>
+        Kanji frequency data crafted by
+        <a href="https://github.com/scriptin">scriptin</a>
+        and gratefully grabbed from
+        <a href="https://github.com/scriptin/kanji-frequency">kanji-frequency</a>
+        (<a href="https://creativecommons.org/licenses/by/4.0/">CC&nbsp;BY&nbsp;4.0</a>)
+      </p>
+    </template>
   </section>
 </template>
 
@@ -139,7 +144,6 @@ export default {
 
 <style scoped lang="scss">
 .result {
-  background: #f5f5f5;
   box-sizing: border-box;
   overflow-y: auto;
   padding: 20px;

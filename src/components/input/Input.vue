@@ -2,21 +2,21 @@
   <section :class="{ focused: focused }">
     <button
       v-if="inputText.length === 0"
-      @click="inputText = sampleText"
+      @click="setInputText(sampleText)"
       class="load-sample-text"
     >
       load demo
     </button>
     <template v-else>
       <button
-        @click="inputText = ''"
+        @click="setInputText('')"
         class="clear-text"
       >
         clear
       </button>
       <button
         @click="$emit('goToResults', inputText)"
-        class="get-results primary-cta"
+        class="get-results primary"
       >
         show results
       </button>
@@ -24,6 +24,7 @@
     <textarea
       @blur="focused = false"
       @focus="focused = true"
+      @input="setInputText($event.target.value)"
       v-model="inputText"
       placeholder="or paste a Japanese text here…"
     />
@@ -38,9 +39,18 @@ export default {
   data() {
     return {
       focused: false,
-      inputText: '',
+      inputText: this.initialInputText,
       sampleText,
     };
+  },
+  methods: {
+    setInputText(inputText) {
+      this.inputText = inputText;
+      localStorage.setItem('inputText', inputText);
+    },
+  },
+  props: {
+    initialInputText: String,
   },
 };
 </script>
@@ -69,6 +79,7 @@ textarea {
   box-sizing: border-box;
   height: 100%;
   margin: 0;
+  outline: 0;
   overflow-y: auto;
   padding: 75px 20px 20px 20px;
   width: 100%;

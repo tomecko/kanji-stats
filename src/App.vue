@@ -4,31 +4,35 @@
     <Wanikani
       @onAPIKeyUpdate="onAPIKeyUpdate"
       :wanikani="wanikani"
+      class="wanikani"
     />
     <Input
-      @goToResults="goToResults"
       v-show="view === 'input'"
+      @goToResults="goToResults"
+      :initialInputText="inputText"
       class="input"
     />
     <Result
+      v-if="view === 'result'"
       @goToInput="goToInput"
       :inputText="inputText"
       :wanikani="wanikani"
-      v-if="view === 'result'"
       class="result"
     />
   </div>
 </template>
 
 <script>
-  // finish WK levels chart: tooltip
+// finish WK levels chart: tooltip
 // Wanikani input UX
-// persist API Key
-// google analytics
-// dataset picker, add source link
+// persist API Key and text input
+// handle no kanji case
+
+// dataset picker: add source link
 // not on WK count and list
 // code cleanup
 // visual improvements, beautify
+// google analytics
 // test! QA
 
 import './App.scss';
@@ -49,35 +53,48 @@ export default {
   },
   data() {
     return {
-      inputText: '',
-      view: 'input', // TODO: consider adding router
+      APIKey: null,
+      inputText: localStorage.getItem('inputText') || '',
+      view: localStorage.getItem('view') || 'input', // TODO: consider adding router
       wanikani: null,
     };
   },
   methods: {
     goToInput() {
-      this.view = 'input';
+      this.setView('input');
     },
     goToResults(inputText) {
-      this.view = 'result';
+      this.setView('result');
       this.inputText = inputText;
     },
     onAPIKeyUpdate(APIKey) {
+      this.APIKey = APIKey;
+      if (!APIKey || APIKey.length === 0) {
+        this.wanikani = null;
+        return;
+      }
       const wanikani = new WanikaniAPI(APIKey);
+      this.wanikani = { pending: true };
       Promise.all([
         wanikani.getKanjiInfos(),
         wanikani.getSrsStages(),
         wanikani.getUser(),
       ])
         .then(([kanjiInfos, srsStages, user]) => {
-          this.wanikani = {
-            kanjiInfos, srsStages, user,
-          };
+          if (this.APIKey === APIKey) {
+            this.wanikani = {
+              kanjiInfos, srsStages, user,
+            };
+          }
         })
-        .catch((err) => {
-          console.error(err);
-          this.wanikani = null;
+        .catch((error) => {
+          console.error(error);
+          this.wanikani = { APIKey, error };
         });
+    },
+    setView(view) {
+      this.view = view;
+      localStorage.setItem('view', view);
     },
   },
 };

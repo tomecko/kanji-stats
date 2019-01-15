@@ -7,6 +7,14 @@
   height: 100vh;
 }
 
+.header {
+  flex: 0 0 60px;
+}
+
+.wanikani {
+  flex: 0 0 $wanikaniBarSize;
+}
+
 .input {
   flex: 1;
 }
