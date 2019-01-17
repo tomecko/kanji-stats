@@ -3,7 +3,6 @@ import {
   mapValues,
   sortBy,
   uniq,
-  values,
 } from 'lodash';
 
 import kanjiDatasets from '../data/kanji-datasets';
