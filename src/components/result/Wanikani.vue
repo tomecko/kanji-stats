@@ -5,7 +5,7 @@
       <Count
         :count="wanikani.user.data.level"
       >
-        your current WaniKani level
+        your WaniKani level
       </Count>
       <Count
         :count="learnedKanjiRatio"

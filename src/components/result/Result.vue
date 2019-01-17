@@ -5,18 +5,18 @@
       v-model="selectedKanjiDataset"
       class="nav-header"
     />
-    <p v-if="result.foundKanji.length === 0" class="no-kanji">
+    <p v-if="result.foundKanji[selectedKanjiDataset].length === 0" class="no-kanji">
       No kanji found :(
     </p>
     <template v-else>
       <FoundKanjiInfo
-        :foundKanji="result.foundKanji"
+        :foundKanji="result.foundKanji[selectedKanjiDataset]"
         :selectedKanjiDataset="selectedKanjiDataset"
         class="result-section"
       />
       <Wanikani
         v-if="wanikani.status === 'valid'"
-        :foundKanji="result.foundKanji"
+        :foundKanji="result.foundKanji[selectedKanjiDataset]"
         :wanikani="wanikani"
         class="result-section"
       />
