@@ -76,6 +76,7 @@ export default {
 $size: $wanikaniBarSize;
 
 .wanikani {
+  border-bottom: 1px solid #eee;
   display: flex;
 
   &.pending {

@@ -27,7 +27,7 @@ export default {
 
 .count {
   align-items: center;
-  margin-right: 40px;
+  margin-right: 50px;
 }
 
 .value {

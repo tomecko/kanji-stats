@@ -64,7 +64,7 @@ export default {
         labels: this.wanikani.srsStages
           // eslint-disable-next-line camelcase
           .map(({ srs_stage_name }) => srs_stage_name)
-          .concat('Unlocked')
+          .concat('Locked')
           .concat(NOT_ON_WANIKANI),
       };
     },

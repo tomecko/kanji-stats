@@ -58,7 +58,7 @@ export default {
         },
         tooltips: {
           callbacks: {
-            label: (data, all) => ` ${data.yLabel} ${all.datasets[data.datasetIndex].label || 'Unlocked'}`,
+            label: (data, all) => ` ${data.yLabel} ${all.datasets[data.datasetIndex].label || 'Locked'}`,
             title: (data, all) => {
               if (!data[0]) {
                 return '';

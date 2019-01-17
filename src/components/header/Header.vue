@@ -22,6 +22,10 @@ export default {
   padding: 1em 20px;
 }
 
+.heading {
+  text-transform: uppercase;
+}
+
 .heading,
 .subheading {
   margin: 0;

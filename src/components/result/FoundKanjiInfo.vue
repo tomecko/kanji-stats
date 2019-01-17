@@ -6,8 +6,7 @@
       distinct kanji found
     </Count>
     <p>
-      All unique kanji found in the provided text
-      (sorted by frequency based on <i>{{ selectedKanjiDataset }}</i>):
+      Unique kanji found sorted by <i>{{ selectedKanjiDataset }}</i> frequencies:
     </p>
     <ul class="kanjis">
       <li
@@ -17,7 +16,7 @@
       >
         <a
           :href="`https://jisho.org/search/${kanji}%20%23kanji`"
-          title="open in jisho.org"
+          :title="`${kanji}\nclick to open in jisho.org`"
           target="_blank"
         >
           {{ kanji }}
@@ -30,7 +29,7 @@
         @click="foundKanjiLimitUser = 0"
         v-if="foundKanjiLimitUser === null"
       >
-        show more
+        show all
       </button>
       <button
         class="small"
@@ -59,7 +58,7 @@ export default {
   },
   data() {
     return {
-      foundKanjiLimitDefault: 300,
+      foundKanjiLimitDefault: 200,
       foundKanjiLimitUser: null,
     };
   },
@@ -78,13 +77,13 @@ export default {
   padding: 0;
 
   &:hover .kanji {
-    opacity: .7;
+    opacity: .8;
   }
 
   .kanji {
+    border-radius: 3px;
     display: inline-block;
     font-size: 1.2em;
-    padding: 2px 3px;
     transition: $transitionDuration opacity;
 
     &.wanikani-learned {
@@ -97,6 +96,8 @@ export default {
     }
 
     a {
+      display: inline-block;
+      padding: 5px 8px;
       text-decoration: none;
 
       &:hover {

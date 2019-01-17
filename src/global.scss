@@ -1,6 +1,7 @@
 $primary: #e26f6f;
 $primaryDark: darken(#e26f6f, 40%);
 $secondary: #ddd;
+$textColor: #222;
 
 $positive: #9ccc65;
 $negative: #f44336;
@@ -21,8 +22,8 @@ $wanikaniBurned: #434343;
 }
 
 body {
-  background: #f5f5f5;
-  color: #222;
+  background: #f3f3f3;
+  color: $textColor;
   font-family: sans-serif;
   min-width: 320px;
   padding: 0;
@@ -34,12 +35,17 @@ h1, h2, p {
 }
 
 p {
+  color: $textColor;
   line-height: 1.45;
 }
 
 a {
   color: $primaryDark;
-  font-size: 1.1em;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
 }
 
 button {

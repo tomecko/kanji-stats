@@ -10,6 +10,6 @@
 
 <script>
 export default {
-  name: 'SourceNote',
+  name: 'Footnote',
 };
 </script>

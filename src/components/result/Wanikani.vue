@@ -17,13 +17,13 @@
     </div>
     <div class="charts">
       <WanikaniStages
-        class="chart"
+        class="stages"
         :foundKanji="foundKanji"
         :height="400"
         :wanikani="wanikani"
       />
       <WanikaniLevels
-        class="chart"
+        class="levels"
         :foundKanji="foundKanji"
         :height="400"
         :wanikani="wanikani"
@@ -70,11 +70,21 @@ export default {
   padding: 30px 0;
 }
 
-.chart {
-  margin-bottom: 50px;
-  width: 46%;
+.stages,
+.levels {
   @media (max-width: 1100px) {
     width: 100%;
+  }
+}
+
+.stages {
+  max-width: 450px;
+}
+
+.levels {
+  flex-grow: 1;
+  @media (min-width: 1100px) {
+    margin-left: 50px;
   }
 }
 </style>
