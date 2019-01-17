@@ -54,7 +54,7 @@ export default {
         },
         title: {
           display: true,
-          text: 'Wanikani Levels',
+          text: 'by WaniKani Levels',
         },
         tooltips: {
           callbacks: {

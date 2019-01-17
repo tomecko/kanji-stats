@@ -27,6 +27,7 @@ export default {
 
 .count {
   align-items: center;
+  margin-bottom: 15px;
   margin-right: 50px;
 }
 

@@ -23,7 +23,7 @@ export default {
         responsive: true,
         title: {
           display: true,
-          text: 'Wanikani Stages',
+          text: 'by WaniKani Stages',
         },
         tooltips: {
           callbacks: {

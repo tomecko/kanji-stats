@@ -26,10 +26,10 @@
     <template v-if="foundKanji.length > foundKanjiLimitDefault">
       <button
         class="small"
-        @click="foundKanjiLimitUser = 0"
-        v-if="foundKanjiLimitUser === null"
+        @click="foundKanjiLimitUser = (foundKanjiLimitUser || foundKanjiLimitDefault) + 100"
+        v-if="foundKanjiLimitUser === null || foundKanjiLimitUser < foundKanji.length"
       >
-        show all
+        show more
       </button>
       <button
         class="small"
@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      foundKanjiLimitDefault: 200,
+      foundKanjiLimitDefault: 100,
       foundKanjiLimitUser: null,
     };
   },
