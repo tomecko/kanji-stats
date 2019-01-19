@@ -58,8 +58,8 @@ export default {
             .map(({ srs_stage_name }) => groupedKanji[srs_stage_name]
               ? groupedKanji[srs_stage_name].length
               : 0)
-            .concat(groupedKanji[undefined].length)
-            .concat(groupedKanji[NOT_ON_WANIKANI].length),
+            .concat(groupedKanji[undefined] ? groupedKanji[undefined].length : 0)
+            .concat(groupedKanji[NOT_ON_WANIKANI] ? groupedKanji[NOT_ON_WANIKANI].length : 0),
         }],
         labels: this.wanikani.srsStages
           // eslint-disable-next-line camelcase
