@@ -65,8 +65,10 @@ export default {
           callbacks: {
             label: () => false,
             title: points => points.length > 0
-              ? `To know ${Math.round(points[0].yLabel * 100)}% of kanji in the provided text
-you need to be familiar with the ${points[0].xLabel + 1} most frequent kanji.`
+              ? `To know ${Math.round(points[0].yLabel * 100)}% of kanji
+in the provided text
+you need to be familiar
+with the ${points[0].xLabel + 1} most frequent kanji.`
               : '',
           },
           caretPadding: 10,

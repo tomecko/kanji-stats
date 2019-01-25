@@ -66,8 +66,9 @@ export default {
               const level = all.labels[data[0].index];
               const sum = data.reduce((acc, val) => acc + val.yLabel, 0);
               return sum > 0
-                ? `${sum} kanji found in the text belong${
-                  sum === 1 ? 's' : ''} to level ${level} on WaniKani.
+                ? `${sum} kanji found in the text
+belong${sum === 1 ? 's' : ''} to level ${level} on WaniKani.
+
 Breakdown by SRS stages:`
                 : '';
             },

@@ -20,7 +20,7 @@
         </option>
       </select>
       {{ }}
-      <small><a href="https://github.com/scriptin/kanji-frequency">(source)</a></small>
+      <small><a href="https://github.com/scriptin/kanji-frequency" target="_blank">(source)</a></small>
     </p>
   </div>
 </template>
