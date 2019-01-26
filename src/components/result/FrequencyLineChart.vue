@@ -58,7 +58,7 @@ export default {
         },
         title: {
           display: true,
-          text: 'Accumulative Frequency',
+          text: 'Cumulative Frequency',
         },
         tooltips: {
           axis: 'x',

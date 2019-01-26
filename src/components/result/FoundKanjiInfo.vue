@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      foundKanjiLimitDefault: 100,
+      foundKanjiLimitDefault: 50,
       foundKanjiLimitUser: null,
     };
   },
