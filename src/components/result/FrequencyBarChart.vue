@@ -36,7 +36,7 @@ export default {
             scaleLabel: {
               display: true,
               fontSize: 16,
-              labelString: 'frequency group of all kanji',
+              labelString: 'frequency group',
             },
             stacked: true,
           }],

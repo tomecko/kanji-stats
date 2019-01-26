@@ -8,102 +8,20 @@
     <p>
       Unique kanji found sorted by <i>{{ selectedKanjiDataset }}</i> frequencies:
     </p>
-    <ul class="kanjis">
-      <li
-        v-for="kanji in foundKanji.slice(0, foundKanjiLimit)"
-        class="kanji"
-        :key="kanji"
-      >
-        <a
-          :href="`https://jisho.org/search/${kanji}%20%23kanji`"
-          :title="`${kanji}\nclick to open in jisho.org`"
-          target="_blank"
-        >
-          {{ kanji }}
-        </a>
-      </li>
-    </ul>
-    <template v-if="foundKanji.length > foundKanjiLimitDefault">
-      <button
-        class="small"
-        @click="foundKanjiLimitUser = (foundKanjiLimitUser || foundKanjiLimitDefault) + 100"
-        v-if="foundKanjiLimitUser === null || foundKanjiLimitUser < foundKanji.length"
-      >
-        show more
-      </button>
-      <button
-        class="small"
-        @click="foundKanjiLimitUser = null"
-        v-else
-      >
-        show less
-      </button>
-    </template>
+    <KanjiList :kanji="foundKanji" />
   </section>
 </template>
 
 <script>
 import Count from './Count.vue';
+import KanjiList from './KanjiList.vue';
 
 export default {
   name: 'FoundKanjiInfo',
-  components: { Count },
-  computed: {
-    foundKanjiLimit() {
-      if (this.foundKanjiLimitUser !== null) {
-        return this.foundKanjiLimitUser === 0 ? 9999 : this.foundKanjiLimitUser;
-      }
-      return this.foundKanjiLimitDefault;
-    },
-  },
-  data() {
-    return {
-      foundKanjiLimitDefault: 50,
-      foundKanjiLimitUser: null,
-    };
-  },
+  components: { Count, KanjiList },
   props: {
     foundKanji: Array,
     selectedKanjiDataset: String,
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '../../global';
-
-.kanjis {
-  list-style: none;
-  padding: 0;
-
-  &:hover .kanji {
-    opacity: .8;
-  }
-
-  .kanji {
-    border-radius: 3px;
-    display: inline-block;
-    font-size: 1.2em;
-    transition: $transitionDuration opacity;
-
-    &.wanikani-learned {
-      font-weight: 700;
-    }
-
-    &:hover {
-      background-color: #ddd;
-      opacity: 1;
-    }
-
-    a {
-      display: inline-block;
-      padding: 5px 8px;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-}
-</style>
