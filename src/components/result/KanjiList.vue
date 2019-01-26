@@ -8,7 +8,7 @@
       >
         <a
           :href="`https://jisho.org/search/${aKanji}%20%23kanji`"
-          :title="`${aKanji}\nclick to open in jisho.org`"
+          :title="`${aKanji}\nclick to open on jisho.org`"
           target="_blank"
         >
           {{ aKanji }}

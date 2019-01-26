@@ -32,6 +32,11 @@
         :wanikani="wanikani"
       />
     </div>
+    <WanikaniKanji
+      class="kanji"
+      :kanjiByStages="kanjiByStages"
+      :stages="stages"
+    />
   </section>
 </template>
 
@@ -40,12 +45,18 @@ import { groupBy } from 'lodash';
 
 import { LOCKED, NOT_ON_WANIKANI } from '../../global';
 import Count from './Count.vue';
+import WanikaniKanji from './WanikaniKanji.vue';
 import WanikaniLevels from './WanikaniLevels.vue';
 import WanikaniStages from './WanikaniStages.vue';
 
 export default {
   name: 'Wanikani',
-  components: { Count, WanikaniLevels, WanikaniStages },
+  components: {
+    Count,
+    WanikaniKanji,
+    WanikaniLevels,
+    WanikaniStages,
+  },
   computed: {
     kanjiByStages() {
       return groupBy(
@@ -88,6 +99,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 30px;
   padding: 30px 0;
 }
 
