@@ -1,7 +1,7 @@
 <script>
 import { Bar, mixins } from 'vue-chartjs';
 
-import { WANIKANI_LEVELS } from '../../global';
+import { INDEPENDENTLY_LEARNED, WANIKANI_LEVELS } from '../../global';
 import { getStageColor } from '../../helpers';
 
 export default {
@@ -66,9 +66,7 @@ export default {
               const sum = data.reduce((acc, val) => acc + val.yLabel, 0);
               return sum > 0
                 ? `${sum} kanji found in the text
-belong${sum === 1 ? 's' : ''} to level ${level} on WaniKani.
-
-Breakdown by SRS stages:`
+belong${sum === 1 ? 's' : ''} to level ${level} on WaniKani.`
                 : '';
             },
           },
@@ -89,22 +87,35 @@ Breakdown by SRS stages:`
           data: levels.map(chartLevel => (this.kanjiByStages[stage] || [])
             .filter(kanji => kanjiInfos[kanji]
               && kanjiInfos[kanji].level === chartLevel
-              && this.foundKanji.includes(kanji))
+              && this.foundKanji.includes(kanji)
+              && !this.independentlyLearnedFoundKanji.includes(kanji))
             .length),
           label: stage,
-        })),
+        })).concat({
+          backgroundColor: getStageColor(INDEPENDENTLY_LEARNED),
+          data: levels.map(chartLevel => this.independentlyLearnedFoundKanji
+            .filter(kanji => kanjiInfos[kanji]
+              && kanjiInfos[kanji].level === chartLevel
+              && this.foundKanji.includes(kanji))
+            .length),
+          label: INDEPENDENTLY_LEARNED,
+        }),
         labels: levels.map(String),
       };
     },
   },
   props: {
     foundKanji: Array,
+    independentlyLearnedFoundKanji: Array,
     kanjiByStages: Object,
     stages: Array,
     wanikani: Object,
   },
   watch: {
-    kanjiInfos() {
+    independentlyLearnedFoundKanji() {
+      this.chartData = this.getChartData();
+    },
+    kanjiByStages() {
       this.chartData = this.getChartData();
     },
   },

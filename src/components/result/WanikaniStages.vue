@@ -1,6 +1,7 @@
 <script>
 import { mixins, Pie } from 'vue-chartjs';
 
+import { INDEPENDENTLY_LEARNED } from '../../global';
 import { formatPercent, getStageColor } from '../../helpers';
 
 export default {
@@ -39,24 +40,33 @@ export default {
   },
   methods: {
     getChartData() {
+      const stagesExtended = this.stages.concat(INDEPENDENTLY_LEARNED);
       return {
         datasets: [{
-          backgroundColor: this.stages.map(getStageColor),
-          data: this.stages.map(stage => this.kanjiByStages[stage]
-            ? this.kanjiByStages[stage].length
-            : 0),
+          backgroundColor: stagesExtended.map(getStageColor),
+          data: this.stages
+            .map(stage => this.kanjiByStages[stage]
+              ? this.kanjiByStages[stage]
+                .filter(kanji => !this.independentlyLearnedFoundKanji.includes(kanji))
+                .length
+              : 0)
+            .concat(this.independentlyLearnedFoundKanji.length),
         }],
-        labels: this.stages,
+        labels: stagesExtended,
       };
     },
   },
   props: {
     foundKanji: Array,
+    independentlyLearnedFoundKanji: Array,
     kanjiByStages: Object,
     stages: Array,
   },
   watch: {
-    kanjiInfos() {
+    independentlyLearnedFoundKanji() {
+      this.chartData = this.getChartData();
+    },
+    kanjiByStages() {
       this.chartData = this.getChartData();
     },
   },

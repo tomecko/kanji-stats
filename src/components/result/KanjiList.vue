@@ -1,11 +1,23 @@
 <template>
   <div>
+    <slot />
     <ul class="kanjis">
       <li
         v-for="aKanji in kanji.slice(0, kanjiLimit)"
         class="kanji"
         :key="aKanji"
       >
+        <input
+          v-if="selectable"
+          @input="$emit(
+            'onSelect',
+            { checked: $event.target.checked, kanji: $event.target.value },
+          )"
+          :checked="selectedKanji.includes(aKanji)"
+          :value="aKanji"
+          title="check if you know this kanji"
+          type="checkbox"
+        />
         <a
           :href="`https://jisho.org/search/${aKanji}%20%23kanji`"
           :title="`${aKanji}\nclick to open on jisho.org`"
@@ -47,12 +59,20 @@ export default {
   },
   data() {
     return {
-      kanjiLimitDefault: 50,
+      kanjiLimitDefault: 30,
       kanjiLimitUser: null,
     };
   },
   props: {
     kanji: Array,
+    onSelect: Function,
+    selectable: Boolean,
+    selectedKanji: {
+      default() {
+        return [];
+      },
+      type: Array,
+    },
   },
 };
 </script>
@@ -64,23 +84,17 @@ export default {
   list-style: none;
   padding: 0;
 
-  &:hover .kanji {
-    opacity: .8;
-  }
-
   .kanji {
     border-radius: 3px;
     display: inline-block;
     font-size: 1.2em;
-    transition: $transitionDuration opacity;
-
-    &.wanikani-learned {
-      font-weight: 700;
-    }
 
     &:hover {
       background-color: #ddd;
-      opacity: 1;
+    }
+
+    input {
+      margin-left: 10px;
     }
 
     a {
@@ -89,7 +103,7 @@ export default {
       text-decoration: none;
 
       &:hover {
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
   }

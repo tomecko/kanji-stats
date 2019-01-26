@@ -5,10 +5,11 @@
     >
       distinct kanji found
     </Count>
-    <p>
-      Unique kanji found sorted by <i>{{ selectedKanjiDataset }}</i> frequencies:
-    </p>
-    <KanjiList :kanji="foundKanji" />
+    <KanjiList :kanji="foundKanji">
+      <p>
+        Unique kanji found sorted by <i>{{ selectedKanjiDataset }}</i> frequencies:
+      </p>
+    </KanjiList>
   </section>
 </template>
 

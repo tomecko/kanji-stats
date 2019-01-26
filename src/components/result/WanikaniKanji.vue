@@ -18,7 +18,18 @@
     <Count :count="kanjiByStages[stage].length">
       {{ stage }}
     </Count>
-    <KanjiList :kanji="kanjiByStages[stage]" />
+    <KanjiList
+      @onSelect="$emit('updateIndependentlyLearnedKanji', $event)"
+      :kanji="kanjiByStages[stage]"
+      :selectable="!learnedStages.includes(stage)"
+      :selectedKanji="independentlyLearnedFoundKanji"
+    >
+      <p v-if="!learnedStages.includes(stage)">
+        Learned some kanji outside WaniKani?
+        Select them to make the report more accurate.
+        The selection will be persisted.
+      </p>
+    </KanjiList>
   </div>
 </template>
 
@@ -47,7 +58,9 @@ export default {
     };
   },
   props: {
+    independentlyLearnedFoundKanji: Array,
     kanjiByStages: Object,
+    learnedStages: Array,
     stages: Array,
   },
 };
