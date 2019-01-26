@@ -1,5 +1,4 @@
 <script>
-import { groupBy } from 'lodash';
 import { mixins, Pie } from 'vue-chartjs';
 
 import { formatPercent, getStageColor } from '../../helpers';
@@ -40,38 +39,21 @@ export default {
   },
   methods: {
     getChartData() {
-      const NOT_ON_WANIKANI = 'Not on WaniKani';
-      const groupedKanji = groupBy(
-        this.foundKanji,
-        kanji => this.wanikani.kanjiInfos[kanji] === undefined
-          ? NOT_ON_WANIKANI
-          : this.wanikani.kanjiInfos[kanji].srsStageName,
-      );
       return {
         datasets: [{
-          backgroundColor: this.wanikani.srsStages
-            .map(getStageColor)
-            .concat('#ddd')
-            .concat('#aaa'),
-          data: this.wanikani.srsStages
-            // eslint-disable-next-line camelcase
-            .map(({ srs_stage_name }) => groupedKanji[srs_stage_name]
-              ? groupedKanji[srs_stage_name].length
-              : 0)
-            .concat(groupedKanji[undefined] ? groupedKanji[undefined].length : 0)
-            .concat(groupedKanji[NOT_ON_WANIKANI] ? groupedKanji[NOT_ON_WANIKANI].length : 0),
+          backgroundColor: this.stages.map(getStageColor),
+          data: this.stages.map(stage => this.kanjiByStages[stage]
+            ? this.kanjiByStages[stage].length
+            : 0),
         }],
-        labels: this.wanikani.srsStages
-          // eslint-disable-next-line camelcase
-          .map(({ srs_stage_name }) => srs_stage_name)
-          .concat('Locked')
-          .concat(NOT_ON_WANIKANI),
+        labels: this.stages,
       };
     },
   },
   props: {
     foundKanji: Array,
-    wanikani: Object,
+    kanjiByStages: Object,
+    stages: Array,
   },
   watch: {
     kanjiInfos() {

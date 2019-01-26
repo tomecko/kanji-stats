@@ -1,5 +1,4 @@
 <script>
-import { groupBy } from 'lodash';
 import { Bar, mixins } from 'vue-chartjs';
 
 import { WANIKANI_LEVELS } from '../../global';
@@ -82,18 +81,17 @@ Breakdown by SRS stages:`
   },
   methods: {
     getChartData() {
-      const { kanjiInfos, srsStages } = this.wanikani;
-      const groupedKanjiInfo = groupBy(
-        Object.values(kanjiInfos).filter(({ kanji }) => this.foundKanji.includes(kanji)),
-        ({ srsStageName }) => srsStageName,
-      );
+      const { kanjiInfos } = this.wanikani;
       const levels = [...Array(WANIKANI_LEVELS).keys()].map(i => i + 1);
       return {
-        datasets: srsStages.concat({ srs_stage_name: undefined }).map(stage => ({
+        datasets: this.stages.map(stage => ({
           backgroundColor: getStageColor(stage),
-          data: levels.map(chartLevel => (groupedKanjiInfo[stage.srs_stage_name] || [])
-            .filter(({ level }) => level === chartLevel).length),
-          label: stage.srs_stage_name,
+          data: levels.map(chartLevel => (this.kanjiByStages[stage] || [])
+            .filter(kanji => kanjiInfos[kanji]
+              && kanjiInfos[kanji].level === chartLevel
+              && this.foundKanji.includes(kanji))
+            .length),
+          label: stage,
         })),
         labels: levels.map(String),
       };
@@ -101,6 +99,8 @@ Breakdown by SRS stages:`
   },
   props: {
     foundKanji: Array,
+    kanjiByStages: Object,
+    stages: Array,
     wanikani: Object,
   },
   watch: {

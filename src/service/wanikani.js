@@ -1,5 +1,7 @@
 import { mapValues } from 'lodash';
 
+import { LOCKED } from '../global';
+
 export default class Wanikani {
   static url = 'https://api.wanikani.com/v2/';
 
@@ -21,7 +23,13 @@ export default class Wanikani {
       .then(([studyInfos, staticInfos]) => {
         const studyInfosMap = studyInfos
           .reduce((acc, info) => ({ ...acc, [info.subjectId]: info }), {});
-        return mapValues(staticInfos, (info => ({ ...info, ...studyInfosMap[info.id] })));
+        return mapValues(staticInfos, info => ({
+          ...info,
+          stage: studyInfosMap[info.id]
+            ? studyInfosMap[info.id].srsStageName
+            : LOCKED,
+          ...studyInfosMap[info.id],
+        }));
       });
   }
 

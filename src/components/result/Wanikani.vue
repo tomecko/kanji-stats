@@ -20,12 +20,15 @@
         class="stages"
         :foundKanji="foundKanji"
         :height="400"
-        :wanikani="wanikani"
+        :kanjiByStages="kanjiByStages"
+        :stages="stages"
       />
       <WanikaniLevels
         class="levels"
         :foundKanji="foundKanji"
         :height="400"
+        :kanjiByStages="kanjiByStages"
+        :stages="stages"
         :wanikani="wanikani"
       />
     </div>
@@ -33,6 +36,9 @@
 </template>
 
 <script>
+import { groupBy } from 'lodash';
+
+import { LOCKED, NOT_ON_WANIKANI } from '../../global';
 import Count from './Count.vue';
 import WanikaniLevels from './WanikaniLevels.vue';
 import WanikaniStages from './WanikaniStages.vue';
@@ -41,6 +47,14 @@ export default {
   name: 'Wanikani',
   components: { Count, WanikaniLevels, WanikaniStages },
   computed: {
+    kanjiByStages() {
+      return groupBy(
+        this.foundKanji,
+        kanji => this.wanikani.kanjiInfos[kanji] === undefined
+          ? NOT_ON_WANIKANI
+          : this.wanikani.kanjiInfos[kanji].stage,
+      );
+    },
     learnedKanjiCount() {
       return this.foundKanji
         .filter(kanji => this.wanikani.kanjiInfos[kanji]
@@ -48,6 +62,13 @@ export default {
     },
     learnedKanjiRatio() {
       return this.learnedKanjiCount / this.foundKanji.length;
+    },
+    stages() {
+      return this.wanikani.srsStages
+        // eslint-disable-next-line camelcase
+        .map(({ srs_stage_name }) => srs_stage_name)
+        .concat(LOCKED)
+        .concat(NOT_ON_WANIKANI);
     },
   },
   props: {
