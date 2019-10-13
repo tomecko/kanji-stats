@@ -10,28 +10,28 @@
     "test": "yarn check --integrity && yarn lint && yarn test:unit && yarn build"
   },
   "dependencies": {
-    "chart.js": "2.7.3",
-    "lodash": "4.17.11",
+    "chart.js": "2.8.0",
+    "lodash": "4.17.15",
     "normalize.css": "8.0.1",
-    "register-service-worker": "1.5.2",
-    "vue": "2.5.17",
-    "vue-chartjs": "3.4.0"
+    "register-service-worker": "1.6.2",
+    "vue": "2.6.10",
+    "vue-chartjs": "3.4.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "3.2.0",
-    "@vue/cli-plugin-eslint": "3.2.0",
-    "@vue/cli-plugin-pwa": "3.2.0",
-    "@vue/cli-plugin-unit-jest": "3.2.0",
-    "@vue/cli-service": "3.2.0",
-    "@vue/eslint-config-airbnb": "4.0.0",
-    "@vue/test-utils": "1.0.0-beta.20",
+    "@vue/cli-plugin-babel": "3.12.0",
+    "@vue/cli-plugin-eslint": "3.12.0",
+    "@vue/cli-plugin-pwa": "3.12.0",
+    "@vue/cli-plugin-unit-jest": "3.12.0",
+    "@vue/cli-service": "3.12.0",
+    "@vue/eslint-config-airbnb": "4.0.1",
+    "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "10.0.1",
-    "babel-jest": "23.6.0",
-    "eslint": "5.8.0",
-    "eslint-plugin-vue": "5.0.0",
-    "node-sass": "4.9.0",
-    "sass-loader": "7.0.1",
-    "vue-template-compiler": "2.5.17"
+    "babel-eslint": "10.0.3",
+    "babel-jest": "24.9.0",
+    "eslint": "6.5.1",
+    "eslint-plugin-vue": "5.2.3",
+    "node-sass": "4.12.0",
+    "sass-loader": "8.0.0",
+    "vue-template-compiler": "2.6.10"
   }
 }
