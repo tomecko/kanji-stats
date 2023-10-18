@@ -65,13 +65,12 @@ export default {
       this.wanikani = { status: 'pending' };
       Promise.all([
         wanikani.getKanjiInfos(),
-        wanikani.getSrsStages(),
         wanikani.getUser(),
       ])
-        .then(([kanjiInfos, srsStages, user]) => {
+        .then(([kanjiInfos, user]) => {
           if (this.APIKey === APIKey) {
             this.wanikani = {
-              kanjiInfos, srsStages, status: 'valid', user,
+              kanjiInfos, status: 'valid', user,
             };
           }
         })

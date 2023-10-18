@@ -11,6 +11,18 @@ export const INDEPENDENTLY_LEARNED = 'Learned outside WaniKani';
 export const LOCKED = 'Locked';
 export const NOT_ON_WANIKANI = 'Not on WaniKani';
 export const WANIKANI_STAGES = {
+  0: LOCKED,
+  1: 'Apprentice I',
+  2: 'Apprentice II',
+  3: 'Apprentice III',
+  4: 'Apprentice IV',
+  5: 'Guru I',
+  6: 'Guru II',
+  7: 'Master',
+  8: 'Enlightened',
+  9: 'Burned',
+};
+export const WANIKANI_STAGES_COLORS = {
   Apprentice: '#dd0093',
   Guru: '#882d9e',
   Master: '#294ddb',

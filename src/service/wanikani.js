@@ -1,6 +1,6 @@
 import { mapValues } from 'lodash';
 
-import { LOCKED } from '../global';
+import { LOCKED, WANIKANI_STAGES } from '../global';
 
 export default class Wanikani {
   static url = 'https://api.wanikani.com/v2/';
@@ -13,11 +13,6 @@ export default class Wanikani {
     return this.get('user');
   }
 
-  getSrsStages() {
-    return this.get('srs_stages')
-      .then(({ data }) => data);
-  }
-
   getKanjiInfos() {
     return Promise.all([this.getKanjiStudyInfos(), this.getAllKanjiStaticInfos()])
       .then(([studyInfos, staticInfos]) => {
@@ -26,7 +21,7 @@ export default class Wanikani {
         return mapValues(staticInfos, info => ({
           ...info,
           stage: studyInfosMap[info.id]
-            ? studyInfosMap[info.id].srsStageName
+            ? studyInfosMap[info.id].srsStage
             : LOCKED,
           ...studyInfosMap[info.id],
         }));
@@ -36,8 +31,7 @@ export default class Wanikani {
   getKanjiStudyInfos() {
     return this.getPagedData('assignments?subject_types=kanji&unlocked=true')
       .then(all => all.map(({ data }) => ({
-        srsStage: data.srs_stage,
-        srsStageName: data.srs_stage_name,
+        srsStage: WANIKANI_STAGES[data.srs_stage],
         subjectId: data.subject_id,
       })));
   }

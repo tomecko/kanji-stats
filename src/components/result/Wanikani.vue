@@ -53,7 +53,7 @@
 <script>
 import { groupBy, reduce } from 'lodash';
 
-import { LOCKED, NOT_ON_WANIKANI } from '../../global';
+import { LOCKED, NOT_ON_WANIKANI, WANIKANI_STAGES } from '../../global';
 import Count from './Count.vue';
 import WanikaniIndependentlyLearned from './WanikaniIndependentlyLearned.vue';
 import WanikaniKanji from './WanikaniKanji.vue';
@@ -72,7 +72,7 @@ export default {
   computed: {
     independentlyLearnedFoundKanji() {
       return reduce(
-        this.kanjiByStages, (acc, kanji, stage) => this.learnedStages.includes(stage)
+        this.kanjiByStages, (acc, kanji, stage) => this.learnedStages.includes(WANIKANI_STAGES[stage])
           ? acc
           : acc.concat(kanji),
         [],
@@ -87,18 +87,19 @@ export default {
       );
     },
     learnedKanjiCount() {
-      return this.foundKanji
-        .filter(kanji => this.wanikani.kanjiInfos[kanji]
-          && this.wanikani.kanjiInfos[kanji].srsStage >= 5).length
-        + this.independentlyLearnedFoundKanji.length;
+      return (
+        this.foundKanji.filter(
+          (kanji) =>
+            this.wanikani.kanjiInfos[kanji] &&
+            this.learnedStages.includes(this.wanikani.kanjiInfos[kanji].srsStage),
+        ).length + this.independentlyLearnedFoundKanji.length
+      );
     },
     learnedKanjiRatio() {
       return this.learnedKanjiCount / this.foundKanji.length;
     },
     stages() {
-      return this.wanikani.srsStages
-        // eslint-disable-next-line camelcase
-        .map(({ srs_stage_name }) => srs_stage_name)
+      return ['Apprentice I', 'Apprentice II', 'Apprentice III', 'Apprentice IV', 'Guru I', 'Guru II', 'Master', 'Enlightened', 'Burned']
         .concat(LOCKED)
         .concat(NOT_ON_WANIKANI);
     },
