@@ -72,7 +72,8 @@ export default {
   computed: {
     independentlyLearnedFoundKanji() {
       return reduce(
-        this.kanjiByStages, (acc, kanji, stage) => this.learnedStages.includes(WANIKANI_STAGES[stage])
+        this.kanjiByStages,
+        (acc, kanji, stage) => this.learnedStages.includes(WANIKANI_STAGES[stage])
           ? acc
           : acc.concat(kanji),
         [],
@@ -89,9 +90,8 @@ export default {
     learnedKanjiCount() {
       return (
         this.foundKanji.filter(
-          (kanji) =>
-            this.wanikani.kanjiInfos[kanji] &&
-            this.learnedStages.includes(this.wanikani.kanjiInfos[kanji].srsStage),
+          kanji => this.wanikani.kanjiInfos[kanji]
+            && this.learnedStages.includes(this.wanikani.kanjiInfos[kanji].srsStage),
         ).length + this.independentlyLearnedFoundKanji.length
       );
     },
