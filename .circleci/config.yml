@@ -29,7 +29,7 @@ jobs:
           at: .
       - add_ssh_keys:
           fingerprints:
-            - "c8:14:9d:3b:57:2f:b0:2f:f7:44:5c:08:b0:c7:a1:8c"
+            - "98:91:cf:55:2b:a2:4d:9c:d2:c9:b4:a6:81:40:26:fd"
       - run: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
       - run:
           name: Deploy Over SSH
@@ -46,6 +46,8 @@ workflows:
     jobs:
       - test
       - deploy:
+          context:
+            - s170
           requires:
             - test
           filters:
